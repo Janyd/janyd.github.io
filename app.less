@@ -52,6 +52,11 @@ body {
     @media screen and (max-width: 1024px) {
         padding-top: 0;
     }
+
+    @media print {
+        font-size: 16px;
+        padding-top: 0;
+    }
 }
 
 .content {
@@ -66,11 +71,14 @@ body {
         margin: 0;
         .border-radius(0);
     }
+    @media print {
+        margin: 0px auto;
+    }
 }
 
 .content-hd {
     width: 100%;
-    padding: 30px 50px;
+    padding: 20px 20px 35px;
     color: #fff;
     background-color: @color-green;
     overflow: hidden;
@@ -80,6 +88,7 @@ body {
     @media print {
         color: #000;
         background-color: #fff;
+        padding: 0;
     }
 
     .avatar {
@@ -240,10 +249,14 @@ body {
 .content-bd {
     width: 100%;
     min-height: 200px;
-    padding: 20px 30px 50px;
+    padding: 5px 25px 35px;
     overflow: hidden;
     @media screen and (max-width: 720px) {
         padding: 20px 20px 50px;
+    }
+
+    @media print {
+        padding: 0;
     }
 
     .content-left,
@@ -256,15 +269,25 @@ body {
 
     .content-left {
         float: left;
+
+        @media print {
+            padding-right: 10px;
+        }
     }
 
     .content-right {
         float: right;
+        @media print {
+            padding-left: 10px;
+        }
     }
 
     section {
         overflow: hidden;
         padding: 10px 15px;
+        @media print {
+            padding: 0px;
+        }
     }
 
     .section-hd {
@@ -367,6 +390,9 @@ body {
         text-align: justify;
         word-break: break-all;
         line-height: 22px;
+        @media print {
+            line-height: 21px;
+        }
 
         em {
             display: inline-block;
