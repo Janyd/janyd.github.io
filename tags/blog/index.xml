@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Janyd Blog</title>
+    <link>http://example.org/tags/blog/</link>
+    <description>Recent content in Blog on Janyd Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 23 Apr 2020 19:25:15 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于Hugo搭建博客</title>
+      <link>http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Thu, 23 Apr 2020 19:25:15 +0800</pubDate>
+      
+      <guid>http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>基于Hugo搭建博客 第一次写博客经验不足呀，请各位多多担待 搭建环境 操作系统：MacOS 10.15.3 工具：Git、VSCode 框架：Hugo 、Githu</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>基于Hugo搭建博客 | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="基于Hugo搭建博客" />
+<meta property="og:description" content="基于Hugo搭建博客 第一次写博客经验不足呀，请各位多多担待 搭建环境 操作系统：MacOS 10.15.3 工具：Git、VSCode 框架：Hugo 、Githu" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
+<meta property="article:published_time" content="2020-04-23T19:25:15+08:00" />
+<meta property="article:modified_time" content="2020-04-23T19:25:15+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于Hugo搭建博客"/>
+<meta name="twitter:description" content="基于Hugo搭建博客 第一次写博客经验不足呀，请各位多多担待 搭建环境 操作系统：MacOS 10.15.3 工具：Git、VSCode 框架：Hugo 、Githu"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "基于Hugo搭建博客",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Hugo, Blog","wordcount":  1023 ,
+        "url": "http:\/\/example.org\/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2\/","datePublished": "2020-04-23","dateModified": "2020-04-23","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">基于Hugo搭建博客</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/%E5%8D%9A%E5%AE%A2">
+                                <i class="far fa-folder fa-fw"></i>博客
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-23>2020-04-23</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1023 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#搭建环境">搭建环境</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#安装git">安装Git</a></li>
+    <li><a href="#安装hugo">安装Hugo</a>
+      <ul>
+        <li><a href="#macos平台">MacOS平台</a></li>
+        <li><a href="#windows平台">Windows平台</a></li>
+      </ul>
+    </li>
+    <li><a href="#创建站点">创建站点</a></li>
+    <li><a href="#添加主题">添加主题</a></li>
+    <li><a href="#添加第一篇文章">添加第一篇文章</a></li>
+    <li><a href="#本地启动博客">本地启动博客</a></li>
+    <li><a href="#发布博客">发布博客</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h1 id="基于hugo搭建博客">基于Hugo搭建博客</h1>
+<p>第一次写博客经验不足呀，请各位多多担待</p>
+<h2 id="搭建环境">搭建环境</h2>
+<ul>
+<li>操作系统：MacOS 10.15.3</li>
+<li>工具：Git、VSCode</li>
+<li>框架：<a href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener noreffer">Hugo</a>
+、Github Pages</li>
+<li>主题：<a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer">LoveIt</a>
+ (感谢dillonzq提供的主题</li>
+</ul>
+<h1 id="具体步骤">具体步骤</h1>
+<h2 id="安装git">安装Git</h2>
+<p>MacOS平台下使用git提示需要安装Xcode，如果是Windows平台直接到<a href="https://git-scm.com/" target="_blank" rel="noopener noreffer">Git官网</a>
+下载即可，安装过程也很简单。</p>
+<h2 id="安装hugo">安装Hugo</h2>
+<h3 id="macos平台">MacOS平台</h3>
+<ul>
+<li>可以使用 <code>brew install hugo</code></li>
+<li><a href="https://github.com/gohugoio/hugo/releases" target="_blank" rel="noopener noreffer">Hugo Github Releases</a>
+下载相应的压缩包，解压出hugo可执行文件到<code>/usr/local/bin</code>下，就可以在命令行里调用<code>hugo</code></li>
+</ul>
+<h3 id="windows平台">Windows平台</h3>
+<ul>
+<li>使用<code>Chocolatey</code>包管理安装，<code>choco install hugo</code></li>
+<li>同MacOS平台一样也可以到<a href="https://github.com/gohugoio/hugo/releases" target="_blank" rel="noopener noreffer">Hugo Github Releases</a>
+下载解压，并加入到环境变量下即可在命令行工具里调用<code>hugo</code>命令</li>
+</ul>
+<p>按照以上步骤就可以在命令行里输入 <code>hugo version</code> 就会得出以下版本信息，那就可以使用hugo进行创建博客了
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200423224427.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<h2 id="创建站点">创建站点</h2>
+<p>在你想要创建目录下输入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">hugo new site 站点名称
+</code></pre></td></tr></table>
+</div>
+</div><p>或者在任意目录下输入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">hugo new site 绝对路径/站点名称
+</code></pre></td></tr></table>
+</div>
+</div><p>就会输出以下提示，在此我创建的站点名称为<code>demo</code><br>
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200423225755.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<h2 id="添加主题">添加主题</h2>
+<p>以当前主题为例<br>
+进入到你新建的站点下的<code>themes</code>，克隆<a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer">LoveIt</a>
+:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">git clone -b master https://github.com/dillonzq/LoveIt.git themes/LoveIt
+</code></pre></td></tr></table>
+</div>
+</div><p>或者，初始化你的项目目录为Git仓库，并且把主题仓库作为子模块:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">git init
+git submodule -b master add https://github.com/dillonzq/LoveIt.git themes/LoveIt
+</code></pre></td></tr></table>
+</div>
+</div><p>关于主题的基础配置可到主题作者博客<a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/" target="_blank" rel="noopener noreffer">主题文档 - 基本概念</a>
+进行配置</p>
+<h2 id="添加第一篇文章">添加第一篇文章</h2>
+<p>在站点目录下输入以下命令即可创建文章</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">hugo new posts/first-post.md
+</code></pre></td></tr></table>
+</div>
+</div><p>文件内容会有title、date与draft，draft表示当前文章是否为草稿，默认是true，发布时不会将草稿发布</p>
+<h2 id="本地启动博客">本地启动博客</h2>
+<p>在站点目录下输入以下命令即可启动，打开命令显示的网址就可以欣赏你写的博客啦！(-D选项是为了能够构建草稿的文章)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">hugo server -D
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="发布博客">发布博客</h2>
+<p>在站点目录输入以下命令，hugo会将markdown文章转为html静态文件放在了<code>public</code>目录下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">hugo
+</code></pre></td></tr></table>
+</div>
+</div><p>因为可通过多种方式放到网站阅读，例如(举例部分)：</p>
+<ul>
+<li>nginx代理</li>
+<li>Github Pages</li>
+<li>Gitee Pages</li>
+</ul>
+<p>会在文章放出网上别人做如何发布博客的参考链接，大家可以前往看看</p>
+<h1 id="总结">总结</h1>
+<p>搭建过程还是比较容易的，之前尝试过Hexo也算比较好的，大家可以去作对比选择一款适合自己的框架，之所以选择Hugo因为官网的一句<code>The world’s fastest framework for building websites</code>。接下来会分享一些源码解析，本人还是个新人，写的不好请大家指出。</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://gohugo.io/" target="_blank" rel="noopener noreffer">Hugo官网</a>
+</li>
+<li><a href="https://hugoloveit.com/zh-cn/theme-documentation-basics/#site-configuration" target="_blank" rel="noopener noreffer">LoveIt主题博客</a>
+</li>
+<li><a href="https://www.cnblogs.com/stevexu/p/10779375.html" target="_blank" rel="noopener noreffer">Hugo + Github Pages 搭建个人博客</a>
+</li>
+<li><a href="https://jeromememory.github.io/2019/08/08/%E5%9C%A8macOS%E4%B8%8A%E4%BD%BF%E7%94%A8GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2.html" target="_blank" rel="noopener noreffer">在macOS上使用GitHub Pages+Hexo搭建个人博客</a>
+</li>
+<li><a href="https://blog.csdn.net/weixin_33769125/article/details/93111054" target="_blank" rel="noopener noreffer">Hugo 常用命令详解</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-23 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" data-title="基于Hugo搭建博客"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" data-title="基于Hugo搭建博客"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/hugo">Hugo</a>,&nbsp;<a href="/tags/blog">Blog</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
