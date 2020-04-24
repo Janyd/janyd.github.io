@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Mybatis加载流程分析-开篇(一) | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Mybatis加载流程分析-开篇(一)" />
+<meta property="og:description" content="Mybatis是什么？ 官方解释： MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80/" />
+<meta property="article:published_time" content="2020-04-24T20:56:41+08:00" />
+<meta property="article:modified_time" content="2020-04-24T20:56:41+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mybatis加载流程分析-开篇(一)"/>
+<meta name="twitter:description" content="Mybatis是什么？ 官方解释： MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Mybatis加载流程分析-开篇(一)",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Mybatis, 源码","wordcount":  1425 ,
+        "url": "http:\/\/example.org\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80\/","datePublished": "2020-04-24","dateModified": "2020-04-24","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Mybatis加载流程分析-开篇(一)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/mybatis%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
+                                <i class="far fa-folder fa-fw"></i>Mybatis源码解析
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-24>2020-04-24</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1425 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#mybatis是什么">Mybatis是什么？</a></li>
+    <li><a href="#mybatis加载流程">Mybatis加载流程</a></li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="mybatis是什么">Mybatis是什么？</h2>
+<p>官方解释：</p>
+<blockquote>
+<p><a href="https://mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener noreffer">MyBatis</a>
+ 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。</p>
+</blockquote>
+<p>其实就是一款与数据库打交道的框架，与单纯使用JDBC去连接数据库相比，框架能够给予的东西还是蛮多的，例如：自动打开连接、事务管理、动态SQL等等。</p>
+<p>既然有这么优秀的框架，那么我们来分析一下Mybatis的源码与原理，在接下来的文章会从按流程来分析，遇到Mybatis的基础组件会展开分析，也就是以流程为主基础组件为辅的结构去解析源码，在文章的后面也会附上一些参考文章供大家深入的了解</p>
+<h2 id="mybatis加载流程">Mybatis加载流程</h2>
+<div class="mermaid" id="id-f54a8b"></div>
+<p>从简易的时序图看出整个加载流程主要的为了能够构建出<code>Configuration</code>，从而构建<code>SqlSessionFactory</code>，<code>Configuration</code>是个重量级配置类，也是Mybatis框架核心配置，几乎贯穿了整个框架，而构建<code>Configuration</code>是在<code>XMLConfigBuilder</code>完成的，所以本篇文章主要是针对该类如何加载与解析配置文件，大概流程如下：</p>
+<ol>
+<li>加载配置文件<code>mybatis-config.xml</code>(也可以不是这个文件名，在下文称配置文件)，以下都是解析配置文件中的节点</li>
+<li>解析<code>&lt;properties /&gt;</code>，解析出动态配置</li>
+<li>解析中<code>&lt;settings /&gt;</code>，
+<ul>
+<li>加载用户自定义VFS实现类</li>
+<li>加载用户自定义日志实现类</li>
+</ul>
+</li>
+<li>解析<code>&lt;typeAliases /&gt;</code>，该配置是指定别名对应的类型</li>
+<li>解析<code>&lt;plugins /&gt;</code>，加载用户自定义的插件</li>
+<li>加载<code>&lt;objectFactory /&gt;</code>，用户自定义的对象工厂类</li>
+<li>加载<code>&lt;objectWrapperFactory /&gt;</code>，用户自定义的对象包装工厂</li>
+<li>加载<code>&lt;reflectorFactory /&gt;</code>，用户自定义的反射器工厂</li>
+<li>将settings得到的配置全部塞进<code>Configuration</code>对象</li>
+<li>加载<code>&lt;environments /&gt;</code>环境配置信息</li>
+<li>加载<code>&lt;databaseIdProvider /&gt;</code> 数据库厂商标识</li>
+<li>加载<code>&lt;typeHandlers /&gt;</code>用户自定义的typeHandler</li>
+<li>加载<code>&lt;mappers /&gt;</code>加载每个Mapper.xml文件</li>
+</ol>
+<p>以上流程可从<code>XMLConfigBuilder#parseConfiguration</code>获得，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">parseConfiguration</span><span class="o">(</span><span class="n">XNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="c1">// issue #117 read properties first
+</span><span class="c1"></span>            <span class="c1">//解析properties节点
+</span><span class="c1"></span>            <span class="n">propertiesElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;properties&#34;</span><span class="o">));</span>
+            <span class="n">Properties</span> <span class="n">settings</span> <span class="o">=</span> <span class="n">settingsAsProperties</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;settings&#34;</span><span class="o">));</span>
+            <span class="c1">//加载VFS实现类
+</span><span class="c1"></span>            <span class="n">loadCustomVfs</span><span class="o">(</span><span class="n">settings</span><span class="o">);</span>
+            <span class="c1">//加载日志实现类
+</span><span class="c1"></span>            <span class="n">loadCustomLogImpl</span><span class="o">(</span><span class="n">settings</span><span class="o">);</span>
+            <span class="c1">//加载别名
+</span><span class="c1"></span>            <span class="n">typeAliasesElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;typeAliases&#34;</span><span class="o">));</span>
+            <span class="c1">//加载插件
+</span><span class="c1"></span>            <span class="n">pluginElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;plugins&#34;</span><span class="o">));</span>
+            <span class="c1">//对象工厂实现类
+</span><span class="c1"></span>            <span class="n">objectFactoryElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;objectFactory&#34;</span><span class="o">));</span>
+            <span class="c1">//对象包装工厂类
+</span><span class="c1"></span>            <span class="n">objectWrapperFactoryElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;objectWrapperFactory&#34;</span><span class="o">));</span>
+            <span class="c1">//Reflector工厂实现类
+</span><span class="c1"></span>            <span class="n">reflectorFactoryElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;reflectorFactory&#34;</span><span class="o">));</span>
+            <span class="c1">//settings配置设置进configuration对象里
+</span><span class="c1"></span>            <span class="n">settingsElement</span><span class="o">(</span><span class="n">settings</span><span class="o">);</span>
+            <span class="c1">// read it after objectFactory and objectWrapperFactory issue #631
+</span><span class="c1"></span>            <span class="c1">//加载环境配置
+</span><span class="c1"></span>            <span class="n">environmentsElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;environments&#34;</span><span class="o">));</span>
+            <span class="c1">//获取数据库厂商的标识
+</span><span class="c1"></span>            <span class="n">databaseIdProviderElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;databaseIdProvider&#34;</span><span class="o">));</span>
+            <span class="c1">//加载typeHandler
+</span><span class="c1"></span>            <span class="n">typeHandlerElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;typeHandlers&#34;</span><span class="o">));</span>
+            <span class="c1">//加载Mapper
+</span><span class="c1"></span>            <span class="n">mapperElement</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">evalNode</span><span class="o">(</span><span class="s">&#34;mappers&#34;</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">BuilderException</span><span class="o">(</span><span class="s">&#34;Error parsing SQL Mapper Configuration. Cause: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结</h2>
+<p>本篇文章讲述一下之后文章的一个路线，接下来会深入解析如何去加载，并且基础组件是怎么规划的，后续都会一一讲述</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://mybatis.org/mybatis-3/zh/configuration.html" target="_blank" rel="noopener noreffer">Mybatis官网</a>
+</li>
+<li><a href="https://www.cnblogs.com/jackion5/p/9480393.html" target="_blank" rel="noopener noreffer">mybatis源码解析3&mdash;XMLConfigBuilder解析</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-24 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80/" data-title="Mybatis加载流程分析-开篇(一)"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90-%E5%BC%80%E7%AF%87%E4%B8%80/" data-title="Mybatis加载流程分析-开篇(一)"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mybatis">Mybatis</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="prev" rel="prev" title="基于Hugo搭建博客"><i class="fas fa-angle-left fa-fw"></i>基于Hugo搭建博客</a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><script>
+        window.mermaidArr = ["id-f54a8b"];
+    </script><script>
+        window.contentMap = {"id-f54a8b":"\r\nsequenceDiagram\r\n    participant U as User\r\n    participant S as SqlSessionFactoryBuilder\r\n    participant X as XMLConfigBuilder\r\n    U-\u003e\u003e+S: 指定配置文件\r\n    S-\u003e\u003e+X: 传入配置文件位置\r\n    X--\u003e\u003e-S: 加载解析并构建Configuration\r\n    S--\u003e\u003e-U: 构建SqlSessionFactory\r"};
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
