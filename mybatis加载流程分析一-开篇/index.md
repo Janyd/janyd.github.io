@@ -1,4 +1,4 @@
-# Mybatis加载流程分析-开篇(一)
+# Mybatis加载流程分析（一）- 开篇
 
 
 ## Mybatis是什么？
