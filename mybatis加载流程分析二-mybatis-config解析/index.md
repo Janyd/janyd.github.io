@@ -1,4 +1,4 @@
-# Mybatis加载流程分析（二）- mybati-config解析
+# Mybatis加载流程分析（二）- mybatis-config解析
 
 
 ## Mybatis mybati-config.xml解析

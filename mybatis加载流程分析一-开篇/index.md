@@ -24,7 +24,7 @@ sequenceDiagram
 从简易的时序图看出整个加载流程主要的为了能够构建出`Configuration`，从而构建`SqlSessionFactory`，`Configuration`是个重量级配置类，也是Mybatis框架核心配置，几乎贯穿了整个框架，而构建`Configuration`是在`XMLConfigBuilder`完成的，所以本篇文章主要是针对该类如何加载与解析配置文件，大概流程如下：
 1. 加载配置文件`mybatis-config.xml`(也可以不是这个文件名，在下文称配置文件)，以下都是解析配置文件中的节点
 2. 解析`<properties />`，解析出动态配置
-3. 解析中`<settings />`，
+3. 解析`<settings />`节点，
     - 加载用户自定义VFS实现类
     - 加载用户自定义日志实现类
 4. 解析`<typeAliases />`，该配置是指定别名对应的类型
