@@ -10,12 +10,12 @@ Mybatis中的动态配置指的是上篇${}占位符替换，而这些变量来�
 </properties>
 ```
 而三种种方式优先级是：
-```mermaid
+{{< mermaid >}}
 graph TD
 构造函数prop --> properties文件
 properties文件 --> property节点
-```
- 优先级越低就有可能相同变量名就会被优先级越高的覆盖，我们可以看`XMLConfigBuilder#propertiesElement`源码  
+{{< /mermaid >}}
+优先级越低就有可能相同变量名就会被优先级越高的覆盖，我们可以看`XMLConfigBuilder#propertiesElement`源码  
 ```Java
 private void propertiesElement(XNode context) throws Exception {
     if (context != null) {

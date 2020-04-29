@@ -37,7 +37,7 @@
                 "url": "http:\/\/example.org\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "Mybatis, 源码","wordcount":  5305 ,
+            },"genre": "posts","keywords": "Mybatis, 源码","wordcount":  5256 ,
         "url": "http:\/\/example.org\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9\/","datePublished": "2020-04-26","dateModified": "2020-04-26","publisher": {
                 "@type": "Organization",
                 "name": "Janyd",
@@ -96,7 +96,7 @@
                                 <i class="far fa-folder fa-fw"></i>Mybatis源码解析
                             </a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-26>2020-04-26</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 5305 字&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 5256 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>预计阅读 11 分钟&nbsp;</div>
         </div><div class="toc" id="toc-auto">
                 <h2 class="toc-title">目录</h2>
@@ -142,20 +142,9 @@
 <span class="nt">&lt;/properties&gt;</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>而三种种方式优先级是：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">graph TD
-构造函数prop --&gt; properties文件
-properties文件 --&gt; property节点
-</code></pre></td></tr></table>
-</div>
-</div><p>优先级越低就有可能相同变量名就会被优先级越高的覆盖，我们可以看<code>XMLConfigBuilder#propertiesElement</code>源码</p>
+</div><p>而三种种方式优先级是：
+<div class="mermaid" id="id-db0a61"></div>
+优先级越低就有可能相同变量名就会被优先级越高的覆盖，我们可以看<code>XMLConfigBuilder#propertiesElement</code>源码</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -1301,5 +1290,9 @@ Mybatis提供了<code>org.apache.ibatis.plugin.Interceptor</code>接口来实现
                 thumbContHeight: 80,
             });
         });
-    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+    </script><script>
+        window.mermaidArr = ["id-db0a61"];
+    </script><script>
+        window.contentMap = {"id-db0a61":"graph TD\n构造函数prop --\u003e properties文件\nproperties文件 --\u003e property节点"};
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>
