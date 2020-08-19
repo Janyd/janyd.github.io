@@ -101,7 +101,7 @@ a {
 body {
   color: #333;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.4;
   font-family: 'Helvetica Neue', Helvetica, Arial, "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
@@ -146,7 +146,7 @@ body {
 }
 .content-hd {
   width: 100%;
-  padding: 20px 20px 35px;
+  padding: 15px 15px 20px;
   color: #fff;
   background-color: #00b38a;
   overflow: hidden;
@@ -164,7 +164,7 @@ body {
   }
 }
 .content-hd .avatar {
-  width: 15%;
+  width: 13%;
   float: left;
 }
 @media screen and (max-width: 720px) {
