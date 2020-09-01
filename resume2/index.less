@@ -75,14 +75,14 @@ body {
 	overflow: hidden;
 
 
-	//@media screen and (max-width: 720px) {
-	//	padding: 25px 30px;
-	//}
-	//@media print {
-	//	color: #000;
-	//	background-color: #fff;
-	//	padding: 0;
-	//}
+	@media screen and (max-width: 720px) {
+		padding: 25px 30px;
+	}
+	@media print {
+		color: #000;
+		background-color: #fff;
+		padding: 0;
+	}
 
 	.person {
 		width: 30%;
@@ -207,6 +207,9 @@ body {
 		height: 0;
 		vertical-align: middle;
 		border-top: 1px solid #ededed;
+		@media print {
+			width: 95%;
+		}
 	}
 
 	.section-title-r {
@@ -224,6 +227,11 @@ body {
 		font-weight: bold;
 		text-align: center;
 		background-color: #eee;
+		@media print {
+			padding: 3px 0px;
+			text-align: left;
+			font-size: 18px;
+		}
 	}
 
 	.section-bd {
@@ -241,7 +249,7 @@ body {
 		}
 
 		.item {
-			margin-bottom: 25px;
+			margin-bottom: 30px;
 			padding-left: 10px;
 
 			.table {
@@ -274,44 +282,9 @@ body {
 			}
 		}
 
-		.item-hd {
-			position: relative;
-			padding: 10px 0 5px;
-			line-height: 20px;
-			overflow: hidden;
-			font-weight: 500;
-			min-height: 30px;
-
-			.item-time {
-				display: inline-block;
-				float: left;
-				width: 25%;
-				@media screen and (max-width: 720px) {
-					width: 100%;
-					margin-bottom: 5px;
-				}
-			}
-
-			.item-more {
-				position: absolute;
-				top: 10px;
-				right: 0;
-			}
-
-			.item-name {
-				float: left;
-			}
-		}
-
 		.item-bd {
 			margin-bottom: 5px;
-
 		}
-
-		.item-des {
-			margin-bottom: 16px;
-		}
-
 
 		.section-content {
 			text-align: justify;
