@@ -194,8 +194,8 @@ body {
 
 	.section-hd {
 		position: relative;
-		height: 28px;
-		margin: 10px auto 5px;
+		height: 26px;
+		margin: 10px auto 15px;
 		overflow: hidden;
 	}
 
@@ -253,13 +253,17 @@ body {
 			}
 
 			.item-line {
-				margin-bottom: 20px;
+				margin-bottom: 13px;
 
 				.item-name {
 					float: left;
 					text-align: right;
 					width: 80px;
 					padding-right: 12px;
+					font-weight: bold;
+				}
+
+				.item-bold {
 					font-weight: bold;
 				}
 
@@ -308,6 +312,7 @@ body {
 			margin-bottom: 16px;
 		}
 
+
 		.section-content {
 			text-align: justify;
 			word-break: break-all;
@@ -342,4 +347,11 @@ body {
 			}
 		}
 	}
+}
+
+.btn {
+	display: inline-block;
+	color: @color-green;
+	font-family: Menlo, @font-family;
+	text-align: center;
 }

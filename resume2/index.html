@@ -57,11 +57,12 @@
                         <ul class="section-content">
                             <li>熟悉Java语法，多线程、集合等基础框架</li>
                             <li>对JVM原理有初步的理解，包括内存模型、垃圾回收机制</li>
-                            <li>精通Redis集群的搭建，熟悉备份策略，了解高并发下缓存穿透缓存雪崩解决方案</li>
-                            <li>精通RocketMQ消息中间件集群搭建，利用MQ缓冲流量，削峰填谷</li>
+                            <li>熟练掌握Spring、SpringMVC、SpringBoot、Dubbo与Mybatis等主流框架，以及Maven等项目构建工具</li>
+                            <li>熟练使用MySql、Oracle等等关系型数据库，通过索引执行计划等方式对SQL语句进行优化</li>
+                            <li>熟悉Redis集群的搭建，熟悉备份策略，了解高并发下缓存穿透缓存雪崩解决方案</li>
                             <li>熟悉应用服务器软件Tomcat等容器配置和部署，熟悉Linux系统</li>
-                            <li>熟练使用主流的关系型数据库，如MySQL、Oracle，有过SQL语句调优经验</li>
-                            <li>熟练掌握SpringMVC、Spring、MyBatis等主流开源框架，以及Gradle、Maven等项目构建工具</li>
+                            <li>掌握Golang基本语法与标准库，了解Golang协程对高并发、高可用架构系统有正确、深刻的理解</li>
+                            <li>熟练使用Docker容器化技术，并对其原理了解，掌握Kubernetes基本概念与用法</li>
                         </ul>
                     </div>
                 </div>
@@ -117,8 +118,10 @@
                         <label class="item-name">
                             项目名称
                         </label>
-                        <div class="item-content">
-                            智放门店智能营销管理系统2
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="http://www.maywant.com/static/zefunNew/">
+                                智放门店智能营销管理系统2.0
+                            </a>
                         </div>
                     </div>
                     <div class="item-line">
@@ -141,19 +144,22 @@
                         <label class="item-name">
                             设计技术
                         </label>
-                        <div class="item-content" >
+                        <div class="item-content">
                             <ul>
                                 <li>
-                                    带领团队完成分布式系统分析与架构设计工作，承担核心功能代表编写，开发与维护系统核心模块
+                                    使用Dubbo实现分布式项目，将整个项目分为业务主体服务、报表服务、消息中心与微信对接平台
                                 </li>
                                 <li>
-                                    推进SpringCloud在SaaS系统中的落地，并解决微服务中常见问题
+                                    基于MQ异步、解耦特性，在项目开发过程将耗时业务操作异步事件化，提高用户体验
                                 </li>
                                 <li>
-                                    使用Redis实现分布式锁与数据缓存，解决幂等操作和提高访问效率
+                                    基于Redis实现了分布式锁与数据缓存，实现了接口幂等、用户登录数据、会员查询与项目列表高频访问等场景的开发
                                 </li>
                                 <li>
-                                    利用RabbitMQ在系统中异步处理，以达到功能模块的解耦
+                                    对数据量较大的表使用Mybatis插件特性，开发出分表插件与租户数据隔离插件，从而实现分表功能与租户数据安全性
+                                </li>
+                                <li>
+                                    基于Spring boot starter自动装配特点，开发公司内部公共组件
                                 </li>
                             </ul>
                         </div>
@@ -162,23 +168,184 @@
                         <label class="item-name">
                             责任描述
                         </label>
-                        <div class="item-content" >
+                        <div class="item-content">
                             <ul>
                                 <li>
-                                    带领团队完成分布式系统分析与架构设计工作，承担核心功能代表编写，开发与维护系统核心模块
+                                    带领团队完成对1.0版本进行重构，参与系统分析与架构设计工作
                                 </li>
                                 <li>
-                                    推进SpringCloud在SaaS系统中的落地，并解决微服务中常见问题
+                                    负责订单模块、会员模块、营销模块、产品管理、员工管理与业绩提成计算等核心业务开发
                                 </li>
                                 <li>
-                                    使用Redis实现分布式锁与数据缓存，解决幂等操作和提高访问效率
-                                </li>
-                                <li>
-                                    利用RabbitMQ在系统中异步处理，以达到功能模块的解耦
+                                    负责公共组件项目开发，组件有操作日志记录、分布式锁等
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目的开发，让我对整个开发流程有了自己的认识，也知道在什么样的场景结合使用Redis与MQ等中间件使用提高服务性能效率，并且在某些高并发场景下应该需要做如何的决策应对，熟悉项目打包到部署上线整个过程，同时面对生产环境出现了宕机、CPU100%知道了如何排查问题并解决问题，在公司期间也对自己的职业道路有了更好规划。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目经历 -->
+        <section class="practice">
+            <header class="section-hd">
+                <h2 class="section-title">项目经历</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目名称
+                        </label>
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="https://github.com/Janyd/dubhe-ci">
+                                DubheCI-轻量级持续集成系统
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目描述
+                        </label>
+                        <div class="item-content">
+                            由于公司服务器资源紧张，手动构建发布正式环境很有可能误操作，所以开发该项目用于构建项目与发布
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            涉及技术
+                        </label>
+                        <div class="item-content">
+                            Golang、Wire、Xorm、Gin、Sqlite3、Docker等
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            设计技术
+                        </label>
+                        <div class="item-content">
+                            <ul>
+                                <li>
+                                    基于Golang开发轻量级持续集成部署系统
+                                </li>
+                                <li>
+                                    利用Docker特性将项目需要构建环境集成，用完即删达到环境避免污染
+                                </li>
+                                <li>
+                                    使用Golang版supervisord来进行对进程管控，使用gRPC来连接到Dubhe
+                                </li>
+                                <li>
+                                    对接阿里云等公有云OpenApi来进行服务创建、升级、回滚与扩容等等
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目开发，认识到Golang简洁性与易用性，以及在此过程大量参考了开源持续集成工具Drone，让我知道了一款持续集成工具拥有什么步骤该准备什么。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目经历 -->
+        <section class="practice">
+            <header class="section-hd">
+                <h2 class="section-title">项目经历</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目名称
+                        </label>
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="http://www.maywant.com/maywant/index.html">
+                                智放门店智能营销管理系统1.0
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目描述
+                        </label>
+                        <div class="item-content">
+                            智放,是深圳市美联网科技有限公司自主研发的适用于美业门店日常营销,经营管理的系统。智放的目的是通过规范化和数字化来改善传统门店日常客户关系管理的模式,基于微信和移动互联网的特点,利用社交媒体的营销来提升门店会员顾客的粘性和忠诚度,增加顾客来店频率和消费客单价。
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            涉及技术
+                        </label>
+                        <div class="item-content">
+                            Spring、Spring MVC、Mybatis、Redis、MySQL、RabbitMQ等
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            责任描述
+                        </label>
+                        <div class="item-content">
+                            <ul>
+                                <li>
+                                    与产品经理保持沟通，对订单管理模块进行维护与高效重构，一个月修复超过后台管理系统 30个 Bug
+                                </li>
+                                <li>
+                                    经过长达几个月网站攻击，分析并整理实施防攻击防护措施
+                                </li>
+                                <li>
+                                    优化项目慢SQL，并对数据量大的表，进行热冷数据分离
+                                </li>
+                                <li>
+                                    建立支付基础服务，给公司产品提供支付交易业务的支持
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目开发，认识到架构设计以及开发人员开发规范的重要性，对产品安全性有了更深一步的认识，对MySQL数据量大表冷热数据分离有了理解
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="self-evaluation">
+            <header class="section-hd">
+                <h2 class="section-title">自我评价</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <ul>
+                        <li>
+                            有良好的代码编写习惯，具有良好的沟通、协作能力，有良好的职业道德和较强的工作责任感
+                        </li>
+                        <li>
+                            善于与人沟通，良好的团队合作精神和高度的责任感，能够承受压力，有较强的吃苦耐劳和创新精神
+                        </li>
+                        <li>
+                            技术事业开阔学习能力强，喜欢钻研语言底层与框架原理，熟悉多种算法、函数式开发等编程技术
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
