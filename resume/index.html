@@ -3,256 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <title>简历 | 陈炎清</title>
-    <link rel="stylesheet" type="text/css" href="app.min.css"/>
+    <link rel="stylesheet" type="text/less" href="index.less"/>
+    <script src="https://cdn.bootcdn.net/ajax/libs/less.js/3.12.2/less.min.js"></script>
 </head>
 <body>
 <div class="content" id="app">
-
-    <!-- 基本信息 -->
     <header class="content-hd">
-        <section class="avatar">
-            <img class="avatar-bd" src="avatar.jpg" alt="头像"/>
-        </section>
         <section class="person">
-            <section class="title">
-                <div class="name">
-                    <h1>陈炎清</h1>
-                </div>
-                <div class="job">
-                    <h2>Java开发工程师</h2>
-                </div>
-            </section>
+            <div class="name">
+                <h1>陈炎清</h1>
+            </div>
+            <div class="job">
+                <h2>Java开发工程师</h2>
+            </div>
+        </section>
+        <section class="person-info">
             <section class="info">
                 <ul>
-                    <li>4年工作经验</li>
-                    <li>吉林大学珠海学院 · 软件工程</li>
-                    <li>本科 · 统招</li>
                     <li>26岁</li>
+                    <li>13726261348</li>
+                    <li>13726261348@163.com</li>
+                    <li>吉林大学珠海学院（本科） · 软件工程</li>
                 </ul>
             </section>
-            <section class="contact">
+            <section class="works">
                 <ul>
+                    <li>4年工作经验</li>
                     <li>
-                        <a href="mailto:13726261348@163.com">
-                            <span class="contact-link">13726261348@163.com</span>
-                            <span class="iconfont">
-                              <svg width="16px" height="16px" viewBox="0 0 1024 1024">
-                                <path
-                                        d="M903.808 239.04l-818.304 0 0 545.92 852.992 0 0-545.92-34.688 0zM869.664 273.152l-329.536 329.536c-15.04 15.04-41.248 15.04-56.288 0l-329.6-329.536 715.392 0zM119.616 286.752l221.536 221.504-221.536 221.536 0-443.072zM146.848 750.848l218.464-218.432 94.432 94.4c13.952 13.952 32.512 21.664 52.256 21.664s38.304-7.712 52.256-21.664l94.432-94.432 218.432 218.432-730.304 0zM904.384 729.824l-221.536-221.568 221.536-221.568 0 443.136z"></path>
-                              </svg>
-                            </span>
+                        <a target="_blank" href="https://chuckchan.gitee.io">
+                            Janyd Blog（博客）
                         </a>
                     </li>
                     <li>
-                        <a href="tel:13726261348">
-                            <span class="contact-link">13726261348</span>
-                            <span class="iconfont">
-                              <svg width="16px" height="16px" viewBox="0 0 1024 1024">
-                                <path
-                                        d="M256 1024l512 0c26.464 0 48-21.536 48-48l0-928c0-26.464-21.536-48-48-48l-512 0c-26.464 0-48 21.536-48 48l0 928c0 26.464 21.536 48 48 48zM240 48c0-8.832 7.168-16 16-16l512 0c8.832 0 16 7.168 16 16l0 928c0 8.832-7.168 16-16 16l-512 0c-8.832 0-16-7.168-16-16l0-928zM288 864l448 0c8.832 0 16-7.168 16-16l0-672c0-8.832-7.168-16-16-16l-448 0c-8.832 0-16 7.168-16 16l0 672c0 8.832 7.168 16 16 16zM304 192l416 0 0 640-416 0 0-640zM496 928c0 17.664 14.336 32 32 32s32-14.336 32-32c0-17.664-14.336-32-32-32-17.664 0-32 14.336-32 32zM448 128l128 0c8.832 0 16-7.168 16-16s-7.168-16-16-16l-128 0c-8.832 0-16 7.168-16 16s7.168 16 16 16z"></path>
-                              </svg>
-                            </span>
+                        <a target="_blank" href="https://github.com/Janyd">
+                            Janyd（Github）
                         </a>
                     </li>
                 </ul>
             </section>
         </section>
     </header>
-
     <div class="content-bd">
-        <div class="content-left">
-            <!-- 经历 -->
-            <section class="practice">
-                <header class="section-hd">
-                    <span class="section-title-l"></span>
-                    <h2 class="section-title">经历</h2>
-                    <span class="section-title-r"></span>
-                </header>
-                <div class="section-bd">
-                    <div class="item">
-                        <header class="item-hd">
-                            <h3 class="item-name">深圳市美联网科技有限公司</h3>
-                            <span class="item-time">2016.08 至今</span>
-                            <a class="btn item-more" href="http://www.maywant.com/maywant/index.html">工作</a>
-                        </header>
-                        <div class="item-bd">
-                            <p class="item-des">于深圳参与<a
-                                    href="http://www.maywant.com/maywant/index.html">智放-门店智能营销管理系统</a>的后端开发，包括：
-                            </p>
-                            <ul class="section-content">
-                                <li>负责团队基础技术支撑，包含构建流程、工具包、新技术探索实践等</li>
-                                <li>主导和开发团队基础库，支撑业务快速迭代、统一项目规范</li>
-                                <li>负责项目管理，产品研发部门的工作任务分配，工作细化划分</li>
-                                <li>设计和开发收银与报表功能，解决微服务常见问题</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <header class="item-hd">
-                            <h3 class="item-name">深圳同城快跑科技有限公司</h3>
-                            <span class="item-time">2015.12 至 2016.06</span>
-                            <a class="btn item-more" href="http://www.itgodo.net">工作</a>
-                        </header>
-                        <div class="item-bd">
-                            <p class="item-des">于深圳同城快跑参与收银及进销存的后端开发，包括： </p>
-                            <ul class="section-content">
-                                <li>参与进销存新功能分析需求与开发</li>
-                                <li>负责商品管理模块以及销售模块进行维护与高效重构</li>
-                                <li>负责公司技术文档的编写以及维护，定期 Review 团队的代码</li>
-                            </ul>
-                        </div>
+
+        <!-- 专业技能 -->
+        <section class="skill">
+            <header class="section-hd">
+                <h2 class="section-title">专业技能</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <section class="section-bd">
+                <div class="item">
+                    <div class="item-bd">
+                        <ul class="section-content">
+                            <li>熟悉<span class="important-text text-padding">Java</span>，<span
+                                    class="important-text">多线程</span>、<span class="important-text">集合</span>等基础框架
+                            </li>
+                            <li>对<span class="important-text text-padding">JVM</span>原理有初步的理解，包括内存模型、垃圾回收机制</li>
+                            <li>
+                                熟练掌握
+                                <span class="important-text text-padding">Spring</span>、<span
+                                    class="important-text text-padding">SpringMVC</span>、<span
+                                    class="important-text text-padding">SpringBoot</span>、<span
+                                    class="important-text text-padding">Dubbo</span>与<span
+                                    class="important-text text-padding">Mybatis</span>等主流框架，以及Maven等项目构建工具
+                            </li>
+                            <li>熟练使用<span class="important-text text-padding">MySql</span>、Oracle等等关系型数据库，通过索引执行计划等方式对SQL语句进行优化
+                            </li>
+                            <li>熟悉<span class="important-text text-padding">Redis</span>高并发下缓存穿透缓存雪崩解决方案以及备份策略，了解集群搭建
+                            </li>
+                            <li>熟悉应用服务器软件<span class="important-text text-padding">Tomcat</span>等容器配置和部署，熟悉<span
+                                    class="important-text text-padding">Linux</span>系统
+                            </li>
+                            <li>掌握<span class="important-text text-padding">Golang</span>基本语法与标准库，了解Golang协程对高并发、高可用架构系统有正确、深刻的理解
+                            </li>
+                            <li>熟练使用<span class="important-text text-padding">Docker</span>，并对其原理了解，掌握<span
+                                    class="text-padding">Kubernetes</span>基本概念与用法
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </section>
+        </section>
 
-            <section class="skill">
-                <header class="section-hd">
-                    <span class="section-title-l"></span>
-                    <h2 class="section-title">技能</h2>
-                    <span class="section-title-r"></span>
-                </header>
-                <div class="section-bd">
-
-                    <!--技能:Java-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <span class="item-time">Java</span>
-                            <a class="btn item-more">熟练</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>拥有4年Java开发经验，基础扎实</li>
-                                <li>熟练SpringBoot、SpringCloud、Dubbo与Mybatis等主流框架，并阅读过部分源码</li>
-                                <li>具备扎实的OOP及设计模式，能根据架构要求，开发设计可扩展、可复用、高性能的功能模块</li>
-                                <li>对JVM有一定了解，能对JVM做性能分析及调优</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--Database-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <span class="item-time">Database</span>
-                            <a class="btn item-more">熟练</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>熟练使用MySql、Oracle等等关系型数据库，通过索引执行计划等方式对SQL语句进行优化</li>
-                                <li>熟悉Redis的常规操作，对Redis五种数据类型有较深入的理解，并将Redis应用在系统的缓存层</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--Linux-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <span class="item-time">Linux</span>
-                            <a class="btn item-more">掌握</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>熟悉常用Linux服务器安装、配置和调优</li>
-                                <li>熟悉Shell脚本编写、Linux系统及常用命令。</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--Golang-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <span class="item-time">Golang</span>
-                            <a class="btn item-more">了解</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>掌握Golang基本语法与标准库</li>
-                                <li>熟悉Golang协程,对高并发、高可用架构系统有正确、深刻的理解</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!--Docker-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <span class="item-time">Docker</span>
-                            <a class="btn item-more">掌握</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>
-                                    熟练使用Docker，并对其原理了解
-                                </li>
-                                <li>
-                                    掌握Kubernetes基本概念与用法
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
+        <!-- 工作经历 -->
+        <section class="practice">
+            <header class="section-hd">
+                <h2 class="section-title">工作经历</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <table class="table">
+                        <thead class="table-head">
+                        <tr>
+                            <td>在职时间</td>
+                            <td>所属行业</td>
+                            <td>公司名称</td>
+                            <td>担任职位</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>2016.08 至今</td>
+                            <td>SaaS软件服务</td>
+                            <td>深圳市美联网科技有限公司</td>
+                            <td>Java工程师</td>
+                        </tr>
+                        <tr>
+                            <td>2015.12 至 2016.06</td>
+                            <td>SaaS软件服务</td>
+                            <td>深圳同城快跑科技有限公司</td>
+                            <td>Java工程师</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </div>
-        <div class="content-right">
 
-            <!-- 项目 -->
-            <section class="project">
-                <header class="section-hd">
-                    <span class="section-title-l"></span>
-                    <h2 class="section-title">项目</h2>
-                    <span class="section-title-r"></span>
-                </header>
-                <div class="section-bd">
-                    以下是我所做项目与学习总结
-
-                    <!--项目:智放2.0-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <a class="btn item-more" href="http://www.maywant.com/static/zefunNew/">智放门店智能营销管理系统2.0</a>
-                        </header>
-                        <div class="item-bd">
+        <!-- 项目经历 -->
+        <section class="practice">
+            <header class="section-hd">
+                <h2 class="section-title">项目经历</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目名称
+                        </label>
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="http://www.maywant.com/static/zefunNew/">
+                                智放门店智能营销管理系统2.0
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目描述
+                        </label>
+                        <div class="item-content">
+                            智放,是深圳市美联网科技有限公司自主研发的适用于美业门店日常营销,经营管理的系统。智放的目的是通过规范化和数字化来改善传统门店日常客户关系管理的模式,基于微信和移动互联网的特点,利用社交媒体的营销来提升门店会员顾客的粘性和忠诚度,增加顾客来店频率和消费客单价。
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            涉及技术
+                        </label>
+                        <div class="item-content">
+                            <span class="text-padding">Spring、Spring MVC、Spring Boot、Mybatis、Redis、MySQL、Dubbo、RabbitMQ</span>等
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            设计技术
+                        </label>
+                        <div class="item-content">
                             <ul>
                                 <li>
-                                    带领团队完成分布式系统分析与架构设计工作，承担核心功能代表编写，开发与维护系统核心模块
+                                    使用<span class="text-padding">Dubbo</span>实现分布式项目，将整个项目分为业务主体服务、报表服务、消息中心与微信对接平台
                                 </li>
                                 <li>
-                                    推进SpringCloud在SaaS系统中的落地，并解决微服务中常见问题
+                                    基于<span class="text-padding">MQ</span>异步、解耦特性，在项目开发过程将耗时业务操作异步事件化，提高用户体验
                                 </li>
                                 <li>
-                                    使用Redis实现分布式锁与数据缓存，解决幂等操作和提高访问效率
+                                    基于<span class="text-padding">Redis</span>实现了分布式锁与数据缓存，实现了接口幂等、用户登录数据、会员查询与项目列表高频访问等场景的开发
                                 </li>
                                 <li>
-                                    利用RabbitMQ在系统中异步处理，以达到功能模块的解耦
+                                    对数据量较大的表使用<span class="text-padding">Mybatis</span>插件特性，开发出分表插件与租户数据隔离插件，从而实现分表功能与租户数据安全性
+                                </li>
+                                <li>
+                                    基于Spring boot starter自动装配特点，开发公司内部公共组件
                                 </li>
                             </ul>
                         </div>
                     </div>
-
-                    <div class="item">
-                        <header class="item-hd">
-                            <a class="btn item-more" href="#">消息中心与支付模块</a>
-                        </header>
-                        <div class="item-bd">
+                    <div class="item-line">
+                        <label class="item-name">
+                            责任描述
+                        </label>
+                        <div class="item-content">
                             <ul>
                                 <li>
-                                    剥离消息通知为独立服务，并利用MQ特性规避高峰期发送
+                                    带领团队完成对1.0版本进行重构，参与系统分析与架构设计工作
                                 </li>
                                 <li>
-                                    集成微信开放平台，管理商家公众号
+                                    负责订单模块、会员模块、营销模块、产品管理、员工管理与业绩提成计算等核心业务开发
                                 </li>
                                 <li>
-                                    剥离支付服务为独立服务，对接各种第三方服务
+                                    负责公共组件项目开发，组件有操作日志记录、分布式锁等
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <!--项目:智放-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <a class="btn item-more"
-                               href="http://www.maywant.com/maywant/index.html">智放门店智能营销管理系统1.0</a>
-                        </header>
-                        <div class="item-bd">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目的开发，让我对整个开发流程有了自己的认识，也知道在什么样的场景结合使用Redis与MQ等中间件使用提高服务性能效率，并且在某些高并发场景下应该需要做如何的决策应对，熟悉项目打包到部署上线整个过程，同时面对生产环境出现了宕机、CPU100%知道了如何排查问题并解决问题，在公司期间也对自己的职业道路有了更好规划。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目名称
+                        </label>
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="http://www.maywant.com/maywant/index.html">
+                                智放门店智能营销管理系统1.0
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目描述
+                        </label>
+                        <div class="item-content">
+                            智放,是深圳市美联网科技有限公司自主研发的适用于美业门店日常营销,经营管理的系统。智放的目的是通过规范化和数字化来改善传统门店日常客户关系管理的模式,基于微信和移动互联网的特点,利用社交媒体的营销来提升门店会员顾客的粘性和忠诚度,增加顾客来店频率和消费客单价。
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            涉及技术
+                        </label>
+                        <div class="item-content">
+                            <span class="text-padding">Spring、Spring MVC、Mybatis、Redis、MySQL、RabbitMQ</span>等
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            责任描述
+                        </label>
+                        <div class="item-content">
                             <ul>
                                 <li>
                                     与产品经理保持沟通，对订单管理模块进行维护与高效重构，一个月修复超过后台管理系统 30个 Bug
@@ -269,22 +256,57 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目开发，认识到架构设计以及开发人员开发规范的重要性，对产品安全性有了更深一步的认识，对MySQL数据量大表冷热数据分离有了更深入理解
+                        </div>
+                    </div>
+                </div>
 
-                    <!--项目:Dubhe-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <a class="btn item-more" href="https://github.com/Janyd/dubhe-ci">DubheCI-轻量级构建与发布系统</a>
-                        </header>
-                        <div class="item-bd">
+                <div class="item">
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目名称
+                        </label>
+                        <div class="item-content item-bold">
+                            <a class="btn" target="_blank" href="https://github.com/Janyd/dubhe-ci">
+                                DubheCI-轻量级持续集成系统
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目描述
+                        </label>
+                        <div class="item-content">
+                            由于公司服务器资源紧张，手动构建发布正式环境很有可能误操作，所以开发该项目用于构建项目与发布
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            涉及技术
+                        </label>
+                        <div class="item-content">
+                            <span class="text-padding">Golang、Wire、Xorm、Gin、Sqlite3、Docker</span>等
+                        </div>
+                    </div>
+                    <div class="item-line">
+                        <label class="item-name">
+                            设计技术
+                        </label>
+                        <div class="item-content">
                             <ul>
                                 <li>
-                                    基于Golang开发轻量级持续集成部署系统
+                                    基于<span class="text-padding">Golang</span>开发轻量级持续集成部署系统
                                 </li>
                                 <li>
-                                    利用Docker特性将项目需要构建环境集成，用完即删达到环境避免污染
+                                    利用<span class="text-padding">Docker</span>，用完即删达到环境避免污染
                                 </li>
                                 <li>
-                                    使用Golang版supervisord来进行对进程管控，使用gRPC来连接到Dubhe
+                                    使用<span class="text-padding">Golang</span>版supervisord来进行对进程管控，使用gRPC来连接到Dubhe
                                 </li>
                                 <li>
                                     对接阿里云等公有云OpenApi来进行服务创建、升级、回滚与扩容等等
@@ -292,59 +314,41 @@
                             </ul>
                         </div>
                     </div>
-
-                    <!--项目:Dubhe-->
-                    <div class="item">
-                        <header class="item-hd">
-                            <a class="btn item-more" href="#">爬虫平台</a>
-                        </header>
-                        <div class="item-bd">
-                            <ul>
-                                <li>
-                                    采用HttpClient定向爬取客户过往系统中会员数据及系统设置数据
-                                </li>
-                                <li>
-                                    利用OCR技术识别验证码自动登录系统
-                                </li>
-                                <li>
-                                    利用Java多态特性统一接口，以后只需实现接口方式增加不同平台数据爬取
-                                </li>
-                                <li>
-                                    使用线程池、构建代理IP池提高爬虫爬取速度
-                                </li>
-                            </ul>
+                    <div class="item-line">
+                        <label class="item-name">
+                            项目收获
+                        </label>
+                        <div class="item-content">
+                            通过该项目开发，认识到Golang简洁性与易用性，以及在此过程大量参考了开源持续集成工具Drone，让我知道了一款持续集成工具拥有什么步骤该准备什么。
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section class="skill">
-                <header class="section-hd">
-                    <span class="section-title-l"></span>
-                    <h2 class="section-title">个人评价</h2>
-                    <span class="section-title-r"></span>
-                </header>
-                <div class="section-bd">
-                    <div class="item">
-                        <div class="item-bd">
-                            <ul class="section-content">
-                                <li>
-                                    有良好的代码编写习惯，具有良好的沟通、协作能力，有良好的职业道德和较强的工作责任感
-                                </li>
-                                <li>
-                                    善于与人沟通，良好的团队合作精神和高度的责任感，能够承受压力，有较强的吃苦耐劳和创新精神
-                                </li>
-                                <li>
-                                    喜欢钻研语言底层与框架原理，熟悉多种算法、函数式开发等编程技术
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <section class="self-evaluation">
+            <header class="section-hd">
+                <h2 class="section-title">自我评价</h2>
+                <span class="section-title-r"></span>
+            </header>
+            <div class="section-bd">
+                <div class="item">
+                    <ul>
+                        <li>
+                            有良好的代码编写习惯，具有良好的沟通、协作能力，有良好的职业道德和较强的工作责任感
+                        </li>
+                        <li>
+                            善于与人沟通，良好的团队合作精神和高度的责任感，能够承受压力，有较强的吃苦耐劳和创新精神
+                        </li>
+                        <li>
+                            技术事业开阔学习能力强，喜欢钻研语言底层与框架原理，熟悉多种算法、函数式开发等编程技术
+                        </li>
+                    </ul>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
     </div>
-
 </div>
 </body>
 </html>
