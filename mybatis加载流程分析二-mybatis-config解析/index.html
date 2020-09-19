@@ -130,7 +130,7 @@
                 </details>
             </div><div class="content" id="content"><h2 id="mybatis-mybati-configxml解析">Mybatis mybati-config.xml解析</h2>
 <p>从上一篇文章我们知道XMLConfigBuilder是对<code>mybatis-config.xml</code>进行解析，<code>XMLConfigBuilder</code>还有个抽象基类<code>BaseBuilder</code>，其中没有抽象方法仅仅抽取了公共方法。
-<div class="mermaid" id="id-c3732d"></div>
+<div class="mermaid" id="id-2f7d37"></div>
 从以上类图看出<code>BaseBuilder</code>还有其他子类，有些从名称可以看出其作用，后续我们也会讲解。</p>
 <p>我们先来看<code>XMLConfigBuilder</code>类的结构：</p>
 <h3 id="xmlconfigbuilder解析器"><code>XMLConfigBuilder</code>解析器</h3>
@@ -909,8 +909,8 @@
             });
         });
     </script><script>
-        window.mermaidArr = ["id-c3732d"];
+        window.mermaidArr = ["id-2f7d37"];
     </script><script>
-        window.contentMap = {"id-c3732d":"classDiagram\n    class BaseBuilder\n    \u003c\u003cabstract\u003e\u003e BaseBuilder\n    class XMLConfigBuilder\n    class XMLMapperBuilder\n    class XMLStatementBuilder\n    class XMLSqlSourceBuilder\n    class XMLScriptBuilder\n    class MapperBuilderAssistant\n    BaseBuilder \u003c|-- XMLConfigBuilder\n    BaseBuilder \u003c|-- XMLMapperBuilder\n    BaseBuilder \u003c|-- XMLStatementBuilder\n    BaseBuilder \u003c|-- XMLSqlSourceBuilder\n    BaseBuilder \u003c|-- XMLScriptBuilder\n    BaseBuilder \u003c|-- MapperBuilderAssistant"};
+        window.contentMap = {"id-2f7d37":"\r\nclassDiagram\r\n    class BaseBuilder\r\n    \u003c\u003cabstract\u003e\u003e BaseBuilder\r\n    class XMLConfigBuilder\r\n    class XMLMapperBuilder\r\n    class XMLStatementBuilder\r\n    class XMLSqlSourceBuilder\r\n    class XMLScriptBuilder\r\n    class MapperBuilderAssistant\r\n    BaseBuilder \u003c|-- XMLConfigBuilder\r\n    BaseBuilder \u003c|-- XMLMapperBuilder\r\n    BaseBuilder \u003c|-- XMLStatementBuilder\r\n    BaseBuilder \u003c|-- XMLSqlSourceBuilder\r\n    BaseBuilder \u003c|-- XMLScriptBuilder\r\n    BaseBuilder \u003c|-- MapperBuilderAssistant\r"};
     </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>MYSQL 执行计划详解 | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="MYSQL 执行计划详解" />
+<meta property="og:description" content="简介 id ，查询表格顺序，值越大优先级越高，id相同，执行顺序则从上到下 select_type，查询类型，主要区分普通查询、联合查询、子查询 ta" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" />
+<meta property="article:published_time" content="2020-09-19T15:04:02+08:00" />
+<meta property="article:modified_time" content="2020-09-19T15:04:02+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MYSQL 执行计划详解"/>
+<meta name="twitter:description" content="简介 id ，查询表格顺序，值越大优先级越高，id相同，执行顺序则从上到下 select_type，查询类型，主要区分普通查询、联合查询、子查询 ta"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "MYSQL 执行计划详解",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "MySQL","wordcount":  1835 ,
+        "url": "http:\/\/example.org\/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3\/","datePublished": "2020-09-19","dateModified": "2020-09-19","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">MYSQL 执行计划详解</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/mysql">
+                                <i class="far fa-folder fa-fw"></i>My s q l
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-09-19>2020-09-19</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1835 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简介">简介</a></li>
+        <li><a href="#id">ID</a></li>
+        <li><a href="#select_type">SELECT_TYPE</a></li>
+        <li><a href="#type">TYPE</a></li>
+        <li><a href="#possible_keys--key-与-key_len">POSSIBLE_KEYS 、 KEY 与 KEY_LEN</a></li>
+        <li><a href="#ref">REF</a></li>
+        <li><a href="#rows">ROWS</a></li>
+        <li><a href="#extra">EXTRA</a></li>
+        <li><a href="#总结">总结</a></li>
+        <li><a href="#参考链接">参考链接</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h3 id="简介">简介</h3>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919151542.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<ul>
+<li><strong>id</strong> ，查询表格顺序，值越大优先级越高，id相同，执行顺序则从上到下</li>
+<li><strong>select_type</strong>，查询类型，主要区分普通查询、联合查询、子查询</li>
+<li><strong>table</strong>，查询所涉及到表</li>
+<li><strong>type</strong>，访问类型，SQL查询优化的重要指标</li>
+<li><strong>possible_keys</strong>，查询过程可能用到的索引</li>
+<li><strong>key</strong>，查询实际上使用到的索引</li>
+<li><strong>key_len</strong>，使用到的索引长度</li>
+<li><strong>ref</strong>，谓词关联信息</li>
+<li><strong>rows</strong>，根据表统计信息或者索引选用的情况，大致估算出找到所需记录需要读取的行数</li>
+<li><strong>filtered</strong>，表示返回的结果行数占用需要读取行数的百分比，<code>filtered</code>值越大越好</li>
+<li><strong>extra</strong>，特性使用</li>
+</ul>
+<h3 id="id">ID</h3>
+<p>表格查询的顺序，降序查看，值越大优先级高，如相同则从上到下。</p>
+<p>同时作为<code>table</code>进行引用，例如：<code>&lt;union1,2&gt;</code>，代表当前查询是由 id 为 1,2 表的并集查询结果</p>
+<h3 id="select_type">SELECT_TYPE</h3>
+<p>查询类型主要有以下几种：</p>
+<ol>
+<li>
+<p><strong>SIMPLE</strong>，简单查询方式，不使用 UNION 或子查询</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">user</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919153454.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>PRIMARY</strong>，该表格位于最外层查询，通常与其他查询组合</p>
+</li>
+<li>
+<p><strong>UNION</strong>，<code>union</code>查询中的第二个或后面的 <code>select</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">user</span> <span class="k">union</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">user_2</span> <span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919153907.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>SUBQUERY</strong>，<code>select</code> 或 <code>where</code> 中包含有子查询</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919154427.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>DERVIED</strong>，查询内使用内联视图</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919154811.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>MATERIALIZED</strong>，子查询无话，表出现在非相关子查询中并且需要进行物化时，会出现<code>MATERIALIZED</code>关键词</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919155645.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>DEPENDENT_UNION</strong>，子查询中的UNION操作，从UNION第二个及之后的所有 select 的select_type为 <code>DEPENDENT_UNION</code>，一般与 <code>DEPENDENT_SUBQUERY</code>结合应用</p>
+</li>
+<li>
+<p><strong>DEPENDENT SUBQUERY</strong>，子查询中第一个 select ，依赖于外部查询的结果集</p>
+</li>
+</ol>
+<h3 id="type">TYPE</h3>
+<p><code>type</code> 是SQL查询优化的一个重要指标，其关键字性能排序：null &gt; system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</p>
+<ol>
+<li>
+<p><strong>null</strong>，不访问任何一个表，例如调用函数：<code>select now();</code></p>
+</li>
+<li>
+<p><strong>system</strong>，表格有且仅有条数据时</p>
+</li>
+<li>
+<p><strong>const</strong>，主键或唯一索引的常量查询，最多只有一行符合匹配，一般用到主键或唯一索引定值查询</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="C:%5cUsers%5ca3139%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20200919160935593.png,  1.5x,  2x"
+        data-src=""
+        alt="image-20200919160935593"
+        title="image-20200919160935593" /></p>
+</li>
+<li>
+<p><strong>eq_ref</strong>，主键索引或非空唯一索引等值扫描，一般用在 join 查询过程，关联条件为主键或唯一索引，性能较好的join操作</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919161110.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>ref</strong>，非及聚集索引（非主键非唯一索引）的常量查询</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200919161332.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><strong>fulltext</strong>，全文索引，查询过程中使用到了<code>fulltext</code>索引</p>
+</li>
+<li>
+<p><strong>ref_or_null</strong>，与 ref 查询类似，在 ref 查询基础之上，会加多一个null值查询条件</p>
+</li>
+<li>
+<p><strong>index_merg</strong>，当条件谓词使用多个索引的最左列并且谓词之间的连接是<code>or</code>情况下，会使用到索引联合查询</p>
+</li>
+<li>
+<p><strong>unique_subquery</strong>，eq_ref 查询一个分支，查询主键的子查询，例如：<code>value in (select id from table) where condition</code></p>
+</li>
+<li>
+<p><strong>index_subquery</strong>，ref 查询一个分支，查询非聚集索引的子查询，例如<code>value in (select column from table) where condition</code></p>
+</li>
+<li>
+<p><strong>range</strong>，使用到了范围查询，例如<code>&gt;</code>、<code>&gt;=</code>、<code>&lt;</code>、<code>&lt;=</code>、<code>BETWEEN</code>、<code>in</code>等等</p>
+</li>
+<li>
+<p><strong>index</strong>，索引树扫描，将扫描真个索引树，例如：<code>select count(*) from user</code> 或 <code>select age from user</code></p>
+</li>
+<li>
+<p><strong>all</strong>，全表扫描，性能最差</p>
+</li>
+</ol>
+<h3 id="possible_keys--key-与-key_len">POSSIBLE_KEYS 、 KEY 与 KEY_LEN</h3>
+<p><code>possible_keys</code>查询过程可能使用到的索引</p>
+<p><code>key</code> 实际用到的索引，如果为 NULL 则没使用索引</p>
+<p><code>key_len</code>使用到索引的长度，长度越短代表效率高</p>
+<h3 id="ref">REF</h3>
+<p>谓词关联信息，可能的值有 null、const 与 关联谓词的列名</p>
+<h3 id="rows">ROWS</h3>
+<p>根据表的统计信息及索引使用情况，大致估算出找出所需记录需要读取的行数，此参数很重要，直接反应的sql找了多少数据，在完成目的的情况下越少越好</p>
+<h3 id="extra">EXTRA</h3>
+<p>额外一些信息，这里会表示是否使用 文件排序 、临时表、覆盖索引、条件过滤等等</p>
+<ul>
+<li><strong>Using filesort</strong>，对数据使用了一个外部文件内容进行排序，而不是按照表内的索引进行排序读取，性能较差需要优化</li>
+<li><strong>Using temporary</strong>，使用到临时表来保存中间结果，对查询结果排序时使用了临时表，常见于 order by 或group by，有待优化，需要对order by 或 group by 后面的字段进行添加索引</li>
+<li><strong>Using index</strong>，标识SQL使用了覆盖索引，避免了访问表的数据数据行</li>
+<li><strong>Using index condition</strong> ，SQL查询命中了索引，但是不是所有数据都在索引上，还需要访问实际的行记录</li>
+<li><strong>Using where</strong>，SQL操作使用了where过滤条件</li>
+</ul>
+<h3 id="总结">总结</h3>
+<p>讲解了<code>MySQL</code>执行计划，如果遇到慢 SQL ，那么我们可以根据执行计划提供的信息对 SQL 进行优化，尤其是<code>type</code>提供的信息太重要了，描述了查询过程找到所需数据使用的扫描方式，同时建立正确的索引，也是非常重要的，所以经过了解执行计划，能够让我们怎么正确添加索引</p>
+<h3 id="参考链接">参考链接</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/deityjian/p/11951436.html" target="_blank" rel="noopener noreffer">MySQL_执行计划详细说明</a>
+</li>
+<li><a href="https://www.yuque.com/yinjianwei/vyrvkf/ri4ks7" target="_blank" rel="noopener noreffer">MySQL 语句执行过程详解</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-09-19 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" data-title="MYSQL 执行计划详解"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" data-title="MYSQL 执行计划详解"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mysql">MySQL</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/" class="prev" rel="prev" title="Mybatis加载流程分析(三) - 加载mybatis-config.xml内容"><i class="fas fa-angle-left fa-fw"></i>Mybatis加载流程分析(三) - 加载mybatis-config.xml内容</a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>
