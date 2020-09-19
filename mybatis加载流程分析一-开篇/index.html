@@ -128,7 +128,7 @@
 <p>其实就是一款与数据库打交道的框架，与单纯使用JDBC去连接数据库相比，框架能够给予的东西还是蛮多的，例如：自动打开连接、事务管理、动态SQL等等。</p>
 <p>既然有这么优秀的框架，那么我们来分析一下Mybatis的源码与原理，在接下来的文章会从按流程来分析，遇到Mybatis的基础组件会展开分析，也就是以流程为主基础组件为辅的结构去解析源码，在文章的后面也会附上一些参考文章供大家深入的了解</p>
 <h2 id="mybatis加载流程">Mybatis加载流程</h2>
-<div class="mermaid" id="id-bc5b70"></div>
+<div class="mermaid" id="id-b7ae3a"></div>
 <p>从简易的时序图看出整个加载流程主要的为了能够构建出<code>Configuration</code>，从而构建<code>SqlSessionFactory</code>，<code>Configuration</code>是个重量级配置类，也是Mybatis框架核心配置，几乎贯穿了整个框架，而构建<code>Configuration</code>是在<code>XMLConfigBuilder</code>完成的，所以本篇文章主要是针对该类如何加载与解析配置文件，大概流程如下：</p>
 <ol>
 <li>加载配置文件<code>mybatis-config.xml</code>(也可以不是这个文件名，在下文称配置文件)，以下都是解析配置文件中的节点</li>
@@ -288,8 +288,8 @@
             });
         });
     </script><script>
-        window.mermaidArr = ["id-bc5b70"];
+        window.mermaidArr = ["id-b7ae3a"];
     </script><script>
-        window.contentMap = {"id-bc5b70":"\r\nsequenceDiagram\r\n    participant U as User\r\n    participant S as SqlSessionFactoryBuilder\r\n    participant X as XMLConfigBuilder\r\n    U-\u003e\u003e+S: 指定配置文件\r\n    S-\u003e\u003e+X: 传入配置文件位置\r\n    X--\u003e\u003e-S: 加载解析并构建Configuration\r\n    S--\u003e\u003e-U: 构建SqlSessionFactory\r"};
+        window.contentMap = {"id-b7ae3a":"\r\nsequenceDiagram\r\n    participant U as User\r\n    participant S as SqlSessionFactoryBuilder\r\n    participant X as XMLConfigBuilder\r\n    U-\u003e\u003e+S: 指定配置文件\r\n    S-\u003e\u003e+X: 传入配置文件位置\r\n    X--\u003e\u003e-S: 加载解析并构建Configuration\r\n    S--\u003e\u003e-U: 构建SqlSessionFactory\r"};
     </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>
