@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>源码 on Janyd Blog</title>
-    <link>http://example.org/tags/%E6%BA%90%E7%A0%81/</link>
-    <description>Recent content in 源码 on Janyd Blog</description>
+    <title>Dubbo on Janyd Blog</title>
+    <link>http://example.org/tags/dubbo/</link>
+    <description>Recent content in Dubbo on Janyd Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sun, 01 Nov 2020 17:28:40 +0800</lastBuildDate>
     
-	<atom:link href="http://example.org/tags/%E6%BA%90%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://example.org/tags/dubbo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -39,30 +39,12 @@
     </item>
     
     <item>
-      <title>Mybatis加载流程分析(三) - 加载mybatis-config.xml内容</title>
-      <link>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/</link>
-      <pubDate>Sun, 26 Apr 2020 14:48:30 +0800</pubDate>
+      <title>Dubbo 源码分析（一）配置</title>
+      <link>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 11 Sep 2020 16:14:07 +0800</pubDate>
       
-      <guid>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/</guid>
-      <description>动态配置加载propertiesElement Mybatis中的动态配置指的是上篇${}占位符替换，而这些变量来自于mybatis-conf</description>
-    </item>
-    
-    <item>
-      <title>Mybatis加载流程分析（二）- mybatis-config解析</title>
-      <link>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/</link>
-      <pubDate>Sat, 25 Apr 2020 17:18:07 +0800</pubDate>
-      
-      <guid>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/</guid>
-      <description>Mybatis mybati-config.xml解析 从上一篇文章我们知道XMLConfigBuilder是对mybatis-config.xml进行解析</description>
-    </item>
-    
-    <item>
-      <title>Mybatis加载流程分析（一）- 开篇</title>
-      <link>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/</link>
-      <pubDate>Fri, 24 Apr 2020 20:56:41 +0800</pubDate>
-      
-      <guid>http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/</guid>
-      <description>Mybatis是什么？ 官方解释： MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及</description>
+      <guid>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/</guid>
+      <description>本文基于 Dubbo 2.7.5 版本 Dubbo 配置概述 Dubbo 提供四种方式配置： API 配置 属性配置 XML 配置 注解配置 其中包含了许多灵活配置项： FROM schema 配置参考手册 所有配置项分为三大类，参</description>
     </item>
     
   </channel>

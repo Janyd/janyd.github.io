@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Dubbo 源码分析（五）    属性配置 | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Dubbo 源码分析（五）    属性配置" />
+<meta property="og:description" content="概述 如果你的应用足够简单，例如，不需要多注册中心或多协议，并且需要在spring容器中共享配置，那么，我们可以直接使用 dubbo.prope" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" />
+<meta property="article:published_time" content="2020-11-01T18:13:07+08:00" />
+<meta property="article:modified_time" content="2020-11-01T18:13:07+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dubbo 源码分析（五）    属性配置"/>
+<meta name="twitter:description" content="概述 如果你的应用足够简单，例如，不需要多注册中心或多协议，并且需要在spring容器中共享配置，那么，我们可以直接使用 dubbo.prope"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Dubbo 源码分析（五）    属性配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","wordcount":  1052 ,
+        "url": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE\/","datePublished": "2020-11-01","dateModified": "2020-11-01","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Dubbo 源码分析（五）    属性配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-11-01>2020-11-01</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1052 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#configutils">ConfigUtils</a></li>
+    <li><a href="#abstractconfigrefresh">AbstractConfig#refresh</a></li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
+<blockquote>
+<p>如果你的应用足够简单，例如，不需要多注册中心或多协议，并且需要在spring容器中共享配置，那么，我们可以直接使用 dubbo.properties作为默认配置。 Dubbo可以自动加载classpath根目录下的dubbo.properties，但是你同样可以使用JVM参数来指定路径：-Ddubbo.properties.file=xxx.properties。来自官方文档 <a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/configuration/properties/" target="_blank" rel="noopener noreffer">属性配置</a>
+</p>
+</blockquote>
+<p>从以上可以总结，使用属性配置有以下特点：</p>
+<ul>
+<li>不需要多注册中心</li>
+<li>外部化配置</li>
+</ul>
+<h2 id="configutils">ConfigUtils</h2>
+<p><code>org.apache.dubbo.common.utils.ConfigUtils</code>在此类中，<code>getProperties()</code>方法就进行对<code>dubbo.properties</code>配置文件进行读取。并且由<code>org.apache.dubbo.common.config.PropertiesConfiguration</code>来对外提供或者配置。</p>
+<h2 id="abstractconfigrefresh">AbstractConfig#refresh</h2>
+<p>各个配置类型获取入口在<code>AbstractConfig#refresh</code>中读取到设置到当前配置类中。一下便是<code>AbstractConfig#refresh</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">refresh</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">//获取环境对象
+</span><span class="c1"></span>    <span class="n">Environment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">ApplicationModel</span><span class="o">.</span><span class="na">getEnvironment</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//根据prefix 与 id 获取当前组合配置信息
+</span><span class="c1"></span>        <span class="n">CompositeConfiguration</span> <span class="n">compositeConfiguration</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">getConfiguration</span><span class="o">(</span><span class="n">getPrefix</span><span class="o">(),</span> <span class="n">getId</span><span class="o">());</span>
+        <span class="c1">//并将当前封装成Configuration，以便复用部分配置。ConfigConfigurationAdapter适配器
+</span><span class="c1"></span>        <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigConfigurationAdapter</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="c1">//并且将该配置信息放入组合配置中，需要根据优先级放入
+</span><span class="c1"></span>        <span class="k">if</span> <span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">isConfigCenterFirst</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// The sequence would be: SystemConfiguration -&gt; AppExternalConfiguration -&gt; ExternalConfiguration -&gt; AbstractConfig -&gt; PropertiesConfiguration
+</span><span class="c1"></span>            <span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">addConfiguration</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// The sequence would be: SystemConfiguration -&gt; AbstractConfig -&gt; AppExternalConfiguration -&gt; ExternalConfiguration -&gt; PropertiesConfiguration
+</span><span class="c1"></span>            <span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">addConfiguration</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// loop methods, get override value and set the new value back to method
+</span><span class="c1"></span>        <span class="c1">//循环当前配置类方法，根据属性setter设置到当前配置类中
+</span><span class="c1"></span>        <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getMethods</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">MethodUtils</span><span class="o">.</span><span class="na">isSetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="c1">//此处就是读取配置值
+</span><span class="c1"></span>                    <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">extractPropertyName</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="n">method</span><span class="o">)));</span>
+                    <span class="c1">// isTypeMatch() is called to avoid duplicate and incorrect update, for example, we have two &#39;setGeneric&#39; methods in ReferenceConfig.
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">ClassUtils</span><span class="o">.</span><span class="na">isTypeMatch</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">ClassUtils</span><span class="o">.</span><span class="na">convertPrimitive</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">value</span><span class="o">));</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchMethodException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Failed to override the property &#34;</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; in &#34;</span> <span class="o">+</span>
+                            <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">()</span> <span class="o">+</span>
+                            <span class="s">&#34;, please make sure every property has getter/setter method provided.&#34;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">isParametersSetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">extractPropertyName</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="n">method</span><span class="o">)));</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">invokeGetParameters</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="k">this</span><span class="o">);</span>
+                    <span class="n">map</span> <span class="o">=</span> <span class="n">map</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;()</span> <span class="o">:</span> <span class="n">map</span><span class="o">;</span>
+                    <span class="n">map</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">parseParameters</span><span class="o">(</span><span class="n">value</span><span class="o">),</span> <span class="s">&#34;&#34;</span><span class="o">));</span>
+                    <span class="n">invokeSetParameters</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="k">this</span><span class="o">,</span> <span class="n">map</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Failed to override &#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>组合配置中包含有多个配置指示着，<code>Dubbo</code>可从多个途径读取到配置信息。下图就是多个途径读取优先级，优先级高会重写优先极低配置。</p>
+<blockquote>
+<p>优先级从高到低：<br>
+JVM -D参数，当你部署或者启动应用时，它可以轻易地重写配置，比如，改变dubbo协议端口；<br>
+XML, XML中的当前配置会重写dubbo.properties中的；<br>
+Properties，默认配置，仅仅作用于以上两者没有配置时。</p>
+</blockquote>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20201101190905.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<h2 id="参考链接">参考链接</h2>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-11-01 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" data-title="Dubbo 源码分析（五）    属性配置"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" data-title="Dubbo 源码分析（五）    属性配置"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" class="prev" rel="prev" title="Dubbo 源码分析（四）   配置（服务消费者）"><i class="fas fa-angle-left fa-fw"></i>Dubbo 源码分析（四）   配置（服务消费者）</a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

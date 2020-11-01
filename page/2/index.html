@@ -79,83 +79,63 @@
         data-src=""
         alt="avatar"
         title="主页" /></a>
-        </div><h2 class="home-description"><div id="id-fd03e3" class="typeit"></div></h2><div class="home-social-links"><a href="https://github.com/Janyd" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a>
+        </div><h2 class="home-description"><div id="id-983dee" class="typeit"></div></h2><div class="home-social-links"><a href="https://github.com/Janyd" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a>
 <a href="mailto:a31397712@163.com" title="Email" rel="noopener noreffer me"><i class="far fa-envelope fa-fw"></i></a>
 </div>
 </div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/">Dubbo 源码分析（五）    属性配置</a>
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/">Mybatis加载流程分析(三) - 加载mybatis-config.xml内容</a>
     </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
 </span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-11-01>2020-11-01</time>
-        </span></div><div class="content">概述 如果你的应用足够简单，例如，不需要多注册中心或多协议，并且需要在spring容器中共享配置，那么，我们可以直接使用 dubbo.prope</div><div class="post-footer">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/">阅读全文</a></div>
+            发布于&nbsp;<time datetime=2020-04-26>2020-04-26</time>
+        </span>&nbsp;
+            <span class="post-category">收录于<a href="/categories/mybatis%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
+                        <i class="far fa-folder fa-fw"></i>Mybatis源码解析
+                    </a></span></div><div class="content">动态配置加载propertiesElement Mybatis中的动态配置指的是上篇${}占位符替换，而这些变量来自于mybatis-conf</div><div class="post-footer">
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mybatis">Mybatis</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/">Dubbo 源码分析（四）   配置（服务消费者）</a>
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/">Mybatis加载流程分析（二）- mybatis-config解析</a>
     </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
 </span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-11-01>2020-11-01</time>
+            发布于&nbsp;<time datetime=2020-04-25>2020-04-25</time>
         </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/dubbo">
-                        <i class="far fa-folder fa-fw"></i>Dubbo
-                    </a></span></div><div class="content">概述 在本篇文章介绍 API 配置消费者部分，在此模块中包含有：AbstractReferenceConfig、ConsumerConfig、Refe</div><div class="post-footer">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
+            <span class="post-category">收录于<a href="/categories/mybatis%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
+                        <i class="far fa-folder fa-fw"></i>Mybatis源码解析
+                    </a></span></div><div class="content">Mybatis mybati-config.xml解析 从上一篇文章我们知道XMLConfigBuilder是对mybatis-config.xml进行解析</div><div class="post-footer">
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mybatis">Mybatis</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/">Dubbo 源码解析（三）  API配置（服务提供者）</a>
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/">Mybatis加载流程分析（一）- 开篇</a>
     </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
 </span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-09-23>2020-09-23</time>
+            发布于&nbsp;<time datetime=2020-04-24>2020-04-24</time>
         </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
-                        <i class="far fa-folder fa-fw"></i>Dubbo源码解析
-                    </a></span></div><div class="content">概述 在这个模块有AbstractServiceConfig、ProviderConfig、ServiceConfigBase、Service</div><div class="post-footer">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
+            <span class="post-category">收录于<a href="/categories/mybatis%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
+                        <i class="far fa-folder fa-fw"></i>Mybatis源码解析
+                    </a></span></div><div class="content">Mybatis是什么？ 官方解释： MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及</div><div class="post-footer">
+        <a href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mybatis">Mybatis</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
 </article>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/">MySQL 执行计划详解</a>
+        <a href="/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">基于Hugo搭建博客</a>
     </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
 </span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-09-19>2020-09-19</time>
+            发布于&nbsp;<time datetime=2020-04-23>2020-04-23</time>
         </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/mysql">
-                        <i class="far fa-folder fa-fw"></i>Mysql
-                    </a></span></div><div class="content">简介 id ，查询表格顺序，值越大优先级越高，id相同，执行顺序则从上到下 select_type，查询类型，主要区分普通查询、联合查询、子查询 ta</div><div class="post-footer">
-        <a href="/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/mysql">mysql</a>,&nbsp;<a href="/tags/sql">sql</a></div></div>
+            <span class="post-category">收录于<a href="/categories/%E5%8D%9A%E5%AE%A2">
+                        <i class="far fa-folder fa-fw"></i>博客
+                    </a></span></div><div class="content">第一次写博客经验不足呀，请各位多多担待 搭建环境 操作系统：MacOS 10.15.3 工具：Git、VSCode 框架：Hugo 、Github Pages 主题：LoveI</div><div class="post-footer">
+        <a href="/%E4%BD%BF%E7%94%A8hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">阅读全文</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/hugo">Hugo</a>,&nbsp;<a href="/tags/blog">Blog</a></div></div>
 </article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/">Dubbo 源码解析（二）  API配置（应用）</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
-</span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-09-11>2020-09-11</time>
-        </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/dubbo">
-                        <i class="far fa-folder fa-fw"></i>Dubbo
-                    </a></span></div><div class="content">AbstractConfig AbstractConfig是除了ArgumentConfig外所有配置类的父类，提供了大部分通用的方法与属性。 属性 1 2 3 4 5 6 7 //配置</div><div class="post-footer">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></div></div>
-</article>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/">Dubbo 源码分析（一）配置</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
-</span>&nbsp;<span class="post-publish">
-            发布于&nbsp;<time datetime=2020-09-11>2020-09-11</time>
-        </span>&nbsp;
-            <span class="post-category">收录于<a href="/categories/dubbo">
-                        <i class="far fa-folder fa-fw"></i>Dubbo
-                    </a></span></div><div class="content">本文基于 Dubbo 2.7.5 版本 Dubbo 配置概述 Dubbo 提供四种方式配置： API 配置 属性配置 XML 配置 注解配置 其中包含了许多灵活配置项： FROM schema 配置参考手册 所有配置项分为三大类，参</div><div class="post-footer">
-        <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/">阅读全文</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">源码解析</a></div></div>
-</article>
-<ul class="pagination"><li class="page-item active">
+<ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
                     </span>
-                </li><li class="page-item ">
+                </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/page/2/">2</a>
                     </span>
@@ -182,8 +162,8 @@
             });
         });
     </script><script>
-        window.typeitArr = [["id-fd03e3"]];
+        window.typeitArr = [["id-983dee"]];
     </script><script>
-        window.contentMap = {"id-fd03e3":"Janyd的博客，也是知识归纳"};
+        window.contentMap = {"id-983dee":"Janyd的博客，也是知识归纳"};
     </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/typeit/typeit.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>

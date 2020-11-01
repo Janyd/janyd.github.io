@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Dubbo 源码解析（二）  API配置（应用） | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Dubbo 源码解析（二）  API配置（应用）" />
+<meta property="og:description" content="AbstractConfig AbstractConfig是除了ArgumentConfig外所有配置类的父类，提供了大部分通用的方法与属性。 属性 1 2 3 4 5 6 7 //配置" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/" />
+<meta property="article:published_time" content="2020-09-11T17:31:49+08:00" />
+<meta property="article:modified_time" content="2020-09-11T17:31:49+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dubbo 源码解析（二）  API配置（应用）"/>
+<meta name="twitter:description" content="AbstractConfig AbstractConfig是除了ArgumentConfig外所有配置类的父类，提供了大部分通用的方法与属性。 属性 1 2 3 4 5 6 7 //配置"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/" /><link rel="next" href="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Dubbo 源码解析（二）  API配置（应用）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Dubbo, 源码","wordcount":  1740 ,
+        "url": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8\/","datePublished": "2020-09-11","dateModified": "2020-09-11","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Dubbo 源码解析（二）  API配置（应用）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/dubbo">
+                                <i class="far fa-folder fa-fw"></i>Dubbo
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-09-11>2020-09-11</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1740 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#abstractconfig">AbstractConfig</a>
+      <ul>
+        <li><a href="#属性">属性</a></li>
+        <li><a href="#静态方法">静态方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#applicationconfig">ApplicationConfig</a></li>
+    <li><a href="#monitorconfig">MonitorConfig</a></li>
+    <li><a href="#moduleconfig">ModuleConfig</a></li>
+    <li><a href="#registryconfig">RegistryConfig</a></li>
+    <li><a href="#argumentconfig">ArgumentConfig</a></li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="abstractconfig">AbstractConfig</h2>
+<p><code>AbstractConfig</code>是除了<code>ArgumentConfig</code>外所有配置类的父类，提供了大部分通用的方法与属性。</p>
+<h3 id="属性">属性</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//配置类后缀，在获取相关tag时，需要去除后缀
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">SUFFIXES</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&#34;Config&#34;</span><span class="o">,</span> <span class="s">&#34;Bean&#34;</span><span class="o">,</span> <span class="s">&#34;ConfigBase&#34;</span><span class="o">};</span>
+
+<span class="c1">//配置编号，比如 ProviderConfig 编号就是provider 与 XML 对应&lt;dubbo:provider&gt;
+</span><span class="c1"></span><span class="kd">protected</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+<span class="c1">//配置信息前缀，例如 dubbo.provider.
+</span><span class="c1"></span><span class="kd">protected</span> <span class="n">String</span> <span class="n">prefix</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="静态方法">静态方法</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//将当前配置类转成小写中划线，作为配置类的 tag 名称，例如
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getTagName</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">cls</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">suffix</span> <span class="o">:</span> <span class="n">SUFFIXES</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tag</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="n">suffix</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">tag</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">suffix</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+            <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">camelToSplitName</span><span class="o">(</span><span class="n">tag</span><span class="o">,</span> <span class="s">&#34;-&#34;</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 将config类中配置添加到 parameters
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">appendParameters</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">parameters</span><span class="o">,</span> <span class="n">Object</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">appendParameters</span><span class="o">(</span><span class="n">parameters</span><span class="o">,</span> <span class="n">config</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">appendParameters</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">parameters</span><span class="o">,</span> <span class="n">Object</span> <span class="n">config</span><span class="o">,</span> <span class="n">String</span> <span class="n">prefix</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">config</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//获取config所有方法
+</span><span class="c1"></span>    <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getMethods</span><span class="o">();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+            <span class="c1">//获取getXX方法判定是需要添加到 parameters
+</span><span class="c1"></span>            <span class="k">if</span> <span class="o">(</span><span class="n">MethodUtils</span><span class="o">.</span><span class="na">isGetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">Parameter</span> <span class="n">parameter</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">Parameter</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="o">==</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span> <span class="o">||</span> <span class="n">parameter</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">excluded</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="c1">//含有Parameter注解且excluded = true 或 返回Object
+</span><span class="c1"></span>                    <span class="k">continue</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">String</span> <span class="n">key</span><span class="o">;</span>
+                <span class="c1">//获取key，如注解上有设置key内容则获取注解中内容
+</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">key</span><span class="o">().</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="na">key</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="c1">//否则从getXXX 字段名称
+</span><span class="c1"></span>                    <span class="n">key</span> <span class="o">=</span> <span class="n">calculatePropertyFromGetter</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="c1">//获取该方法获取配置项值
+</span><span class="c1"></span>                <span class="n">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
+                <span class="n">String</span> <span class="n">str</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">value</span><span class="o">).</span><span class="na">trim</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">escaped</span><span class="o">())</span> <span class="o">{</span>
+                        <span class="c1">//需要将配置项内容编码
+</span><span class="c1"></span>                        <span class="n">str</span> <span class="o">=</span> <span class="n">URL</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">append</span><span class="o">())</span> <span class="o">{</span>
+                        <span class="c1">//追加配置项内容
+</span><span class="c1"></span>                        <span class="n">String</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">pre</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">str</span> <span class="o">=</span> <span class="n">pre</span> <span class="o">+</span> <span class="s">&#34;,&#34;</span> <span class="o">+</span> <span class="n">str</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">prefix</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">prefix</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">//如有前缀需要加前缀
+</span><span class="c1"></span>                        <span class="n">key</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s">&#34;.&#34;</span> <span class="o">+</span> <span class="n">key</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="n">parameters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">str</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">parameter</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">parameter</span><span class="o">.</span><span class="na">required</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="n">config</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;.&#34;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s">&#34; == null&#34;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">isParametersGetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//判断是否存在 getParameters
+</span><span class="c1"></span>                
+                <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;)</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">config</span><span class="o">,</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="n">0</span><span class="o">]);</span>
+                <span class="n">parameters</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">map</span><span class="o">,</span> <span class="n">prefix</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//从getter方法提取字段
+</span><span class="c1"></span><span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">calculatePropertyFromGetter</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;get&#34;</span><span class="o">)</span> <span class="o">?</span> <span class="n">3</span> <span class="o">:</span> <span class="n">2</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">camelToSplitName</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">).</span><span class="na">toLowerCase</span><span class="o">()</span> <span class="o">+</span> <span class="n">name</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">),</span> <span class="s">&#34;.&#34;</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 将注解上配置信息设置到当前Config
+</span><span class="cm"> */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">appendAnnotation</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">annotationClass</span><span class="o">,</span> <span class="n">Object</span> <span class="n">annotation</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//从注解获取相关配置名称
+</span><span class="c1"></span>    <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">annotationClass</span><span class="o">.</span><span class="na">getMethods</span><span class="o">();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getDeclaringClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span>
+                <span class="o">&amp;&amp;</span> <span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">()</span> <span class="o">!=</span> <span class="kt">void</span><span class="o">.</span><span class="na">class</span>
+                <span class="o">&amp;&amp;</span> <span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">().</span><span class="na">length</span> <span class="o">==</span> <span class="n">0</span>
+                <span class="o">&amp;&amp;</span> <span class="n">Modifier</span><span class="o">.</span><span class="na">isPublic</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">())</span>
+                <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">Modifier</span><span class="o">.</span><span class="na">isStatic</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getModifiers</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="c1">//获取配置项名称
+</span><span class="c1"></span>                <span class="n">String</span> <span class="n">property</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+                <span class="k">if</span> <span class="o">(</span><span class="s">&#34;interfaceClass&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">property</span><span class="o">)</span> <span class="o">||</span> <span class="s">&#34;interfaceName&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">property</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">property</span> <span class="o">=</span> <span class="s">&#34;interface&#34;</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="c1">//将配置项转setter名称
+</span><span class="c1"></span>                <span class="n">String</span> <span class="n">setter</span> <span class="o">=</span> <span class="s">&#34;set&#34;</span> <span class="o">+</span> <span class="n">property</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">+</span> <span class="n">property</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+                <span class="c1">//拿到配置项值
+</span><span class="c1"></span>                <span class="n">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">annotation</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">value</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getDefaultValue</span><span class="o">()))</span> <span class="o">{</span>
+                    <span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">parameterType</span> <span class="o">=</span> <span class="n">ReflectUtils</span><span class="o">.</span><span class="na">getBoxedClass</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getReturnType</span><span class="o">());</span>
+                    <span class="c1">//特殊配置项名称做相关处理
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="s">&#34;filter&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">property</span><span class="o">)</span> <span class="o">||</span> <span class="s">&#34;listener&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">property</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">parameterType</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">join</span><span class="o">((</span><span class="n">String</span><span class="o">[])</span> <span class="n">value</span><span class="o">,</span> <span class="s">&#34;,&#34;</span><span class="o">);</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&#34;parameters&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">property</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">parameterType</span> <span class="o">=</span> <span class="n">Map</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">CollectionUtils</span><span class="o">.</span><span class="na">toStringMap</span><span class="o">((</span><span class="n">String</span><span class="o">[])</span> <span class="n">value</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="c1">//利用反射拿到当前配置类的setter方法，并且将配置项值设置到当前类中，如果不存则会抛异常，在catch中进行忽略
+</span><span class="c1"></span>                        <span class="n">Method</span> <span class="n">setterMethod</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getMethod</span><span class="o">(</span><span class="n">setter</span><span class="o">,</span> <span class="n">parameterType</span><span class="o">);</span>
+                        <span class="n">setterMethod</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchMethodException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="c1">// ignore
+</span><span class="c1"></span>                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">(),</span> <span class="n">e</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+</span><span class="cm"> * 从环境变量中取出新的配置项，将配置类配置项进行刷新
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">refresh</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Environment</span> <span class="n">env</span> <span class="o">=</span> <span class="n">ApplicationModel</span><span class="o">.</span><span class="na">getEnvironment</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">CompositeConfiguration</span> <span class="n">compositeConfiguration</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">getConfiguration</span><span class="o">(</span><span class="n">getPrefix</span><span class="o">(),</span> <span class="n">getId</span><span class="o">());</span>
+        <span class="n">Configuration</span> <span class="n">config</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigConfigurationAdapter</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">isConfigCenterFirst</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// The sequence would be: SystemConfiguration -&gt; AppExternalConfiguration -&gt; ExternalConfiguration -&gt; AbstractConfig -&gt; PropertiesConfiguration
+</span><span class="c1"></span>            <span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">addConfiguration</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// The sequence would be: SystemConfiguration -&gt; AbstractConfig -&gt; AppExternalConfiguration -&gt; ExternalConfiguration -&gt; PropertiesConfiguration
+</span><span class="c1"></span>            <span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">addConfiguration</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// loop methods, get override value and set the new value back to method
+</span><span class="c1"></span>        <span class="n">Method</span><span class="o">[]</span> <span class="n">methods</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getMethods</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Method</span> <span class="n">method</span> <span class="o">:</span> <span class="n">methods</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">MethodUtils</span><span class="o">.</span><span class="na">isSetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">extractPropertyName</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="n">method</span><span class="o">)));</span>
+                    <span class="c1">// isTypeMatch() is called to avoid duplicate and incorrect update, for example, we have two &#39;setGeneric&#39; methods in ReferenceConfig.
+</span><span class="c1"></span>                    <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">value</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">ClassUtils</span><span class="o">.</span><span class="na">isTypeMatch</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">ClassUtils</span><span class="o">.</span><span class="na">convertPrimitive</span><span class="o">(</span><span class="n">method</span><span class="o">.</span><span class="na">getParameterTypes</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">value</span><span class="o">));</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NoSuchMethodException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Failed to override the property &#34;</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; in &#34;</span> <span class="o">+</span>
+                            <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getSimpleName</span><span class="o">()</span> <span class="o">+</span>
+                            <span class="s">&#34;, please make sure every property has getter/setter method provided.&#34;</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">isParametersSetter</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">trim</span><span class="o">(</span><span class="n">compositeConfiguration</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">extractPropertyName</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="n">method</span><span class="o">)));</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isNotEmpty</span><span class="o">(</span><span class="n">value</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="n">invokeGetParameters</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="k">this</span><span class="o">);</span>
+                    <span class="n">map</span> <span class="o">=</span> <span class="n">map</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;()</span> <span class="o">:</span> <span class="n">map</span><span class="o">;</span>
+                    <span class="n">map</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">convert</span><span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">parseParameters</span><span class="o">(</span><span class="n">value</span><span class="o">),</span> <span class="s">&#34;&#34;</span><span class="o">));</span>
+                    <span class="n">invokeSetParameters</span><span class="o">(</span><span class="n">getClass</span><span class="o">(),</span> <span class="k">this</span><span class="o">,</span> <span class="n">map</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Failed to override &#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="applicationconfig">ApplicationConfig</h2>
+<p><code>org.apache.dubbo.config.ApplicationConfig</code>，应用配置。相关配置项解释，参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-application/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:application》</a>
+</p>
+<h2 id="monitorconfig">MonitorConfig</h2>
+<p><code>org.apache.dubbo.config.MonitorConfig</code>，监控配置。相关配置项参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-monitor" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:monitor》</a>
+</p>
+<h2 id="moduleconfig">ModuleConfig</h2>
+<p><code>org.apache.dubbo.config.ModuleConfig</code>，模块配置。相关配置项参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-module" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:module》</a>
+</p>
+<h2 id="registryconfig">RegistryConfig</h2>
+<p><code>org.apache.dubbo.config.RegistryConfig</code>，注册中心配置。相关配置项参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-registry" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:registry》</a>
+</p>
+<h2 id="argumentconfig">ArgumentConfig</h2>
+<p><code>org.apache.dubbo.config.ArgumentConfig</code>，方法参数配置。相关配置项参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-argument" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:argument》</a>
+</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="http://dubbo.apache.org/" target="_blank" rel="noopener noreffer">Dubbo官网</a>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-09-11 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/" data-title="Dubbo 源码解析（二）  API配置（应用）"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/" data-title="Dubbo 源码解析（二）  API配置（应用）"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/" class="prev" rel="prev" title="Dubbo 源码分析（一）配置"><i class="fas fa-angle-left fa-fw"></i>Dubbo 源码分析（一）配置</a>
+            <a href="/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" class="next" rel="next" title="MySQL 执行计划详解">MySQL 执行计划详解<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

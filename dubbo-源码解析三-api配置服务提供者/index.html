@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Dubbo 源码解析（三）  API配置（服务提供者） | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Dubbo 源码解析（三）  API配置（服务提供者）" />
+<meta property="og:description" content="概述 在这个模块有AbstractServiceConfig、ProviderConfig、ServiceConfigBase、Service" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" />
+<meta property="article:published_time" content="2020-09-23T17:45:54+08:00" />
+<meta property="article:modified_time" content="2020-09-23T17:45:54+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dubbo 源码解析（三）  API配置（服务提供者）"/>
+<meta name="twitter:description" content="概述 在这个模块有AbstractServiceConfig、ProviderConfig、ServiceConfigBase、Service"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" /><link rel="next" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Dubbo 源码解析（三）  API配置（服务提供者）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Dubbo, 源码","wordcount":  1333 ,
+        "url": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85\/","datePublished": "2020-09-23","dateModified": "2020-09-23","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Dubbo 源码解析（三）  API配置（服务提供者）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/dubbo%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90">
+                                <i class="far fa-folder fa-fw"></i>Dubbo源码解析
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-09-23>2020-09-23</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1333 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#protocolconfig">ProtocolConfig</a></li>
+    <li><a href="#providerconfig">ProviderConfig</a></li>
+    <li><a href="#serviceconfig">ServiceConfig</a></li>
+    <li><a href="#abstractserviceconfig">AbstractServiceConfig</a></li>
+    <li><a href="#abstractinterfaceconfig">AbstractInterfaceConfig</a></li>
+    <li><a href="#abstractmethodconfig">AbstractMethodConfig</a></li>
+    <li><a href="#methodconfig">MethodConfig</a></li>
+    <li><a href="#servicebean">ServiceBean</a></li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://cdn.jsdelivr.net/gh/Janyd/blog-images/imgs/20200911165514.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<h2 id="概述">概述</h2>
+<p>在这个模块有<code>AbstractServiceConfig</code>、<code>ProviderConfig</code>、<code>ServiceConfigBase</code>、<code>ServiceConfig</code>、<code>ServiceBean</code>、<code>ProtocolConfig</code></p>
+<p>引用官网 <a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/configuration/api" target="_blank" rel="noopener noreffer">API 配置代码</a>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.apache.dubbo.rpc.config.ApplicationConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.dubbo.rpc.config.RegistryConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.dubbo.rpc.config.ProviderConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.dubbo.rpc.config.ServiceConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.xxx.XxxService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.xxx.XxxServiceImpl</span><span class="o">;</span>
+ 
+<span class="c1">// 服务实现
+</span><span class="c1"></span><span class="n">XxxService</span> <span class="n">xxxService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XxxServiceImpl</span><span class="o">();</span>
+ 
+<span class="c1">// 当前应用配置
+</span><span class="c1"></span><span class="n">ApplicationConfig</span> <span class="n">application</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApplicationConfig</span><span class="o">();</span>
+<span class="n">application</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;xxx&#34;</span><span class="o">);</span>
+ 
+<span class="c1">// 连接注册中心配置
+</span><span class="c1"></span><span class="n">RegistryConfig</span> <span class="n">registry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RegistryConfig</span><span class="o">();</span>
+<span class="n">registry</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;10.20.130.230:9090&#34;</span><span class="o">);</span>
+<span class="n">registry</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="s">&#34;aaa&#34;</span><span class="o">);</span>
+<span class="n">registry</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">&#34;bbb&#34;</span><span class="o">);</span>
+ 
+<span class="c1">// 服务提供者协议配置
+</span><span class="c1"></span><span class="n">ProtocolConfig</span> <span class="n">protocol</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProtocolConfig</span><span class="o">();</span>
+<span class="n">protocol</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;dubbo&#34;</span><span class="o">);</span>
+<span class="n">protocol</span><span class="o">.</span><span class="na">setPort</span><span class="o">(</span><span class="n">12345</span><span class="o">);</span>
+<span class="n">protocol</span><span class="o">.</span><span class="na">setThreads</span><span class="o">(</span><span class="n">200</span><span class="o">);</span>
+ 
+<span class="c1">// 注意：ServiceConfig为重对象，内部封装了与注册中心的连接，以及开启服务端口
+</span><span class="c1"></span> 
+<span class="c1">// 服务提供者暴露服务配置
+</span><span class="c1"></span><span class="n">ServiceConfig</span><span class="o">&lt;</span><span class="n">XxxService</span><span class="o">&gt;</span> <span class="n">service</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServiceConfig</span><span class="o">&lt;</span><span class="n">XxxService</span><span class="o">&gt;();</span> <span class="c1">// 此实例很重，封装了与注册中心的连接，请自行缓存，否则可能造成内存和连接泄漏
+</span><span class="c1"></span><span class="n">service</span><span class="o">.</span><span class="na">setApplication</span><span class="o">(</span><span class="n">application</span><span class="o">);</span>
+<span class="n">service</span><span class="o">.</span><span class="na">setRegistry</span><span class="o">(</span><span class="n">registry</span><span class="o">);</span> <span class="c1">// 多个注册中心可以用setRegistries()
+</span><span class="c1"></span><span class="n">service</span><span class="o">.</span><span class="na">setProtocol</span><span class="o">(</span><span class="n">protocol</span><span class="o">);</span> <span class="c1">// 多个协议可以用setProtocols()
+</span><span class="c1"></span><span class="n">service</span><span class="o">.</span><span class="na">setInterface</span><span class="o">(</span><span class="n">XxxService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">service</span><span class="o">.</span><span class="na">setRef</span><span class="o">(</span><span class="n">xxxService</span><span class="o">);</span>
+<span class="n">service</span><span class="o">.</span><span class="na">setVersion</span><span class="o">(</span><span class="s">&#34;1.0.0&#34;</span><span class="o">);</span>
+ 
+<span class="c1">// 暴露及注册服务
+</span><span class="c1"></span><span class="n">service</span><span class="o">.</span><span class="na">export</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以上是通过 API 来进行将服务者注册到注册中心，并提供服务的。</p>
+<h2 id="protocolconfig">ProtocolConfig</h2>
+<p><code>org.apache.dubbo.config.ProtocolConfig</code>，服务提供者协议配置。
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-protocol" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:protocol》</a>
+</p>
+<h2 id="providerconfig">ProviderConfig</h2>
+<p><code>org.apache.dubbo.config.ProviderConfig</code>，服务提供配置
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-provider" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:provider》</a>
+</p>
+<h2 id="serviceconfig">ServiceConfig</h2>
+<p><code>org.apache.dubbo.config.ServiceConfig</code>，服务配置
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-service" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:service》</a>
+</p>
+<h2 id="abstractserviceconfig">AbstractServiceConfig</h2>
+<p><code>org.apache.dubbo.config.AbstractServiceConfig</code>，是抽象类，是 <code>ServiceConfig</code> 与 <code>ProviderConfig</code> 的父类
+具体属性结束参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-service" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:service》</a>
+ 或 <a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-provider" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:provider》</a>
+</p>
+<h2 id="abstractinterfaceconfig">AbstractInterfaceConfig</h2>
+<p><code>org.apache.dubbo.config.AbstractInterfaceConfig</code>，是抽象类，是<code>AbstractServiceConfig</code> 与 <code>AbstractReferenceConfig</code> 的父类。部分属性看参考上面链接解释。</p>
+<ul>
+<li><code>checkRegistry</code>方法 从<code>ApplicationConfig</code>获取注册中心配置，检验并设置到当前配置</li>
+<li><code>checkInterfaceAndMethods</code>方法，检查方法级别配置</li>
+<li><code>checkStubAndLocal</code>方法，检查本地存根与本地实现类型，但local属性已经弃用
+属性解释可参考<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-service" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:service》</a>
+ 或 <a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-reference" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</li>
+</ul>
+<h2 id="abstractmethodconfig">AbstractMethodConfig</h2>
+<p><code>org.apache.dubbo.config.AbstractMethodConfig</code>，抽象方法配置
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-method" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:method》</a>
+</p>
+<h2 id="methodconfig">MethodConfig</h2>
+<p><code>org.apache.dubbo.config.MethodConfig</code>，方法配置
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-method" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:method》</a>
+</p>
+<h2 id="servicebean">ServiceBean</h2>
+<p><code>org.apache.dubbo.config.spring.ServiceBean</code>，服务Bean，继承<code>ServiceConfig</code>并实现了 Spring 多个接口，用来将提供者注入到 IOC 容器中
+具体属性解释参见<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-service" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:service》</a>
+</p>
+<h2 id="参考链接">参考链接</h2>
+<p><a href="http://dubbo.apache.org/" target="_blank" rel="noopener noreffer">Dubbo官方指南文档</a>
+</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-09-23 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" data-title="Dubbo 源码解析（三）  API配置（服务提供者）"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" data-title="Dubbo 源码解析（三）  API配置（服务提供者）"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/mysql-%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92%E8%AF%A6%E8%A7%A3/" class="prev" rel="prev" title="MySQL 执行计划详解"><i class="fas fa-angle-left fa-fw"></i>MySQL 执行计划详解</a>
+            <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" class="next" rel="next" title="Dubbo 源码分析（四）   配置（服务消费者）">Dubbo 源码分析（四）   配置（服务消费者）<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Dubbo 源码分析（四）   配置（服务消费者） | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Dubbo 源码分析（四）   配置（服务消费者）" />
+<meta property="og:description" content="概述 在本篇文章介绍 API 配置消费者部分，在此模块中包含有：AbstractReferenceConfig、ConsumerConfig、Refe" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" />
+<meta property="article:published_time" content="2020-11-01T17:28:40+08:00" />
+<meta property="article:modified_time" content="2020-11-01T17:28:40+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dubbo 源码分析（四）   配置（服务消费者）"/>
+<meta name="twitter:description" content="概述 在本篇文章介绍 API 配置消费者部分，在此模块中包含有：AbstractReferenceConfig、ConsumerConfig、Refe"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" /><link rel="next" href="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Dubbo 源码分析（四）   配置（服务消费者）",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Dubbo, 源码","wordcount":  756 ,
+        "url": "http:\/\/example.org\/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85\/","datePublished": "2020-11-01","dateModified": "2020-11-01","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/example.org\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Dubbo 源码分析（四）   配置（服务消费者）</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/dubbo">
+                                <i class="far fa-folder fa-fw"></i>Dubbo
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-11-01>2020-11-01</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 756 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 2 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#abstractreferenceconfig">AbstractReferenceConfig</a></li>
+    <li><a href="#consumerconfig">ConsumerConfig</a></li>
+    <li><a href="#referenceconfigbase">ReferenceConfigBase</a></li>
+    <li><a href="#referenceconfigbase-1">ReferenceConfigBase</a></li>
+    <li><a href="#referenceconfig">ReferenceConfig</a></li>
+    <li><a href="#referencebean">ReferenceBean</a></li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="概述">概述</h2>
+<p>在本篇文章介绍 API 配置消费者部分，在此模块中包含有：<code>AbstractReferenceConfig</code>、<code>ConsumerConfig</code>、<code>ReferenceConfigBase</code>、<code>ReferenceConfig</code>、<code>ReferenceBean</code> 消费者配置类。</p>
+<h2 id="abstractreferenceconfig">AbstractReferenceConfig</h2>
+<p><code>org.apache.dubbo.config.AbstractReferenceConfig</code>，抽象引用配置，继承了<code>AbstractInterfaceConfig</code>，在上一篇文章也介绍到该抽象类。具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo:reference" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</p>
+<h2 id="consumerconfig">ConsumerConfig</h2>
+<p><code>org.apache.dubbo.config.ConsumerConfig</code>，消费者配置。继承了 <code>AbstractReferenceConfig</code> 。具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-consumer/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:consumer》</a>
+</p>
+<h2 id="referenceconfigbase">ReferenceConfigBase</h2>
+<p><code>org.apache.dubbo.config.ReferenceConfigBase</code>，引用配置基础。继承了 <code>AbstractReferenceConfig</code> 。具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-reference/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</p>
+<h2 id="referenceconfigbase-1">ReferenceConfigBase</h2>
+<p><code>org.apache.dubbo.config.ReferenceConfigBase</code>，引用配置基础。继承了 <code>AbstractReferenceConfig</code> 。
+具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-reference/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</p>
+<h2 id="referenceconfig">ReferenceConfig</h2>
+<p><code>org.apache.dubbo.config.ReferenceConfig</code>，引用配置。继承<code>ReferenceConfigBase</code>。
+具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-reference/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</p>
+<h2 id="referencebean">ReferenceBean</h2>
+<p><code>org.apache.dubbo.config.spring.ReferenceBean</code>，引用Bean，与<code>ServiceBean</code>一样为了注入到 IOC 容器中。</p>
+<ul>
+<li><code>prepareDubboConfigBeans</code> 在自动装配 <code>@Reference</code> 实例前需要将配置类实例对象初始化完成
+具体属性可以查看<a href="http://dubbo.apache.org/zh-cn/docs/2.7/user/references/xml/dubbo-reference/" target="_blank" rel="noopener noreffer">《Dubbo指南 &ndash; dubbo:reference》</a>
+</li>
+</ul>
+<h2 id="参考链接">参考链接</h2>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-11-01 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" data-title="Dubbo 源码分析（四）   配置（服务消费者）"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" data-title="Dubbo 源码分析（四）   配置（服务消费者）"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/dubbo">Dubbo</a>,&nbsp;<a href="/tags/%E6%BA%90%E7%A0%81">源码</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%89-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85/" class="prev" rel="prev" title="Dubbo 源码解析（三）  API配置（服务提供者）"><i class="fas fa-angle-left fa-fw"></i>Dubbo 源码解析（三）  API配置（服务提供者）</a>
+            <a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" class="next" rel="next" title="Dubbo 源码分析（五）    属性配置">Dubbo 源码分析（五）    属性配置<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

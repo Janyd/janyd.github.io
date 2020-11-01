@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dubbo on Janyd Blog</title>
+    <link>http://example.org/categories/dubbo/</link>
+    <description>Recent content in Dubbo on Janyd Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 01 Nov 2020 17:28:40 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/categories/dubbo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dubbo 源码分析（四）   配置（服务消费者）</title>
+      <link>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</link>
+      <pubDate>Sun, 01 Nov 2020 17:28:40 +0800</pubDate>
+      
+      <guid>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E5%9B%9B-api%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</guid>
+      <description>概述 在本篇文章介绍 API 配置消费者部分，在此模块中包含有：AbstractReferenceConfig、ConsumerConfig、Refe</description>
+    </item>
+    
+    <item>
+      <title>Dubbo 源码解析（二）  API配置（应用）</title>
+      <link>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Fri, 11 Sep 2020 17:31:49 +0800</pubDate>
+      
+      <guid>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C-api%E9%85%8D%E7%BD%AE%E5%BA%94%E7%94%A8/</guid>
+      <description>AbstractConfig AbstractConfig是除了ArgumentConfig外所有配置类的父类，提供了大部分通用的方法与属性。 属性 1 2 3 4 5 6 7 //配置</description>
+    </item>
+    
+    <item>
+      <title>Dubbo 源码分析（一）配置</title>
+      <link>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 11 Sep 2020 16:14:07 +0800</pubDate>
+      
+      <guid>http://example.org/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%B8%80-%E9%85%8D%E7%BD%AE/</guid>
+      <description>本文基于 Dubbo 2.7.5 版本 Dubbo 配置概述 Dubbo 提供四种方式配置： API 配置 属性配置 XML 配置 注解配置 其中包含了许多灵活配置项： FROM schema 配置参考手册 所有配置项分为三大类，参</description>
+    </item>
+    
+  </channel>
+</rss>
