@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Spring Boot Starter 剖析与实践 | Janyd Blog</title>
+        <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Spring Boot Starter 剖析与实践" />
+<meta property="og:description" content="引言 作为 Java 开发人员来说几乎是离不开 Spring ，Spring 是一个广泛用于开发企业应用程序的开源轻量级框架。但近几年出现了 Spring Boot，构建在传统 Spring 框架" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-21T17:04:02+08:00" />
+<meta property="article:modified_time" content="2023-07-21T17:04:02+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring Boot Starter 剖析与实践"/>
+<meta name="twitter:description" content="引言 作为 Java 开发人员来说几乎是离不开 Spring ，Spring 是一个广泛用于开发企业应用程序的开源轻量级框架。但近几年出现了 Spring Boot，构建在传统 Spring 框架"/>
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#da532c">
+<link rel="canonical" href="http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://www.jaftt.com/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94--%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring Boot Starter 剖析与实践",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/www.jaftt.com\/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "http:\/\/www.jaftt.com\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Spring, Spring Boot, Java","wordcount":  5088 ,
+        "url": "http:\/\/www.jaftt.com\/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5\/","datePublished": "2023-07-21","dateModified": "2023-07-21","publisher": {
+                "@type": "Organization",
+                "name": "Janyd",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "http:\/\/www.jaftt.com\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"author": {
+                "@type": "Person",
+                "name": "Janyd"
+            },"description": ""
+    }
+    </script></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {window.isDark = 'dark' === 'dark';} else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/">Janyd Blog</a>
+        </div>
+        <div class="menu"><a class="menu-item" href="/posts/" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" rel="noopener noreffer">分类</a><span class="menu-item">|</span>
+            <a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-wrapper">
+        <div class="header-container">
+            <div class="header-title">
+                <a href="/">Janyd Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="" rel="noopener noreffer">文章</a><a class="menu-item" href="/tags/" title="" rel="noopener noreffer">标签</a><a class="menu-item" href="/categories/" title="" rel="noopener noreffer">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+
+<script>
+    window.desktopHeaderMode = "fixed";
+    window.mobileHeaderMode = "auto";
+</script>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Spring Boot Starter 剖析与实践</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/Janyd" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Janyd</a>
+</span>&nbsp;
+                    <span class="post-category">收录于<a href="/categories/spring-boot">
+                                <i class="far fa-folder fa-fw"></i>Spring boot
+                            </a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2023-07-21>2023-07-21</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 5088 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 11 分钟&nbsp;</div>
+        </div><div class="toc" id="toc-auto">
+                <h2 class="toc-title">目录</h2>
+                <div class="toc-content" id="toc-content-auto"></div>
+            </div>
+            <div class="toc" id="toc-static">
+                <details>
+                    <summary>
+                        <div class="toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#引言">引言</a></li>
+    <li><a href="#一spring-boot-starter-是什么">一、Spring Boot Starter 是什么？</a></li>
+    <li><a href="#二spring-boot-starter-剖析">二、Spring Boot Starter 剖析</a>
+      <ul>
+        <li><a href="#spring">Spring</a>
+          <ul>
+            <li><a href="#环境依赖">环境依赖</a></li>
+            <li><a href="#开发流程">开发流程</a></li>
+            <li><a href="#剖析">剖析</a></li>
+          </ul>
+        </li>
+        <li><a href="#spring-boot">Spring Boot</a>
+          <ul>
+            <li><a href="#环境依赖-1">环境依赖</a></li>
+            <li><a href="#开发流程-1">开发流程</a></li>
+            <li><a href="#剖析-1">剖析</a></li>
+          </ul>
+        </li>
+        <li><a href="#小结">小结</a>
+          <ul>
+            <li><a href="#spi">SPI</a>
+              <ul>
+                <li><a href="#java-spi">Java SPI</a></li>
+                <li><a href="#spring-spi">Spring SPI</a></li>
+              </ul>
+            </li>
+            <li><a href="#spring-boot-270">Spring Boot 2.7.0</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#三spring-boot-stater-实践">三、Spring Boot Stater 实践</a>
+      <ul>
+        <li><a href="#开发">开发</a>
+          <ul>
+            <li><a href="#项目结构与-maven-依赖">项目结构与 Maven 依赖</a></li>
+            <li><a href="#分布式锁接口与实现">分布式锁接口与实现</a>
+              <ul>
+                <li><a href="#接口">接口</a></li>
+                <li><a href="#redis-实现">Redis 实现</a></li>
+                <li><a href="#zookeeper-实现">Zookeeper 实现</a></li>
+              </ul>
+            </li>
+            <li><a href="#distributedlockautoconfiguration-配置类">DistributedLockAutoConfiguration 配置类</a></li>
+            <li><a href="#springfactories">spring.factories</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用">使用</a>
+          <ul>
+            <li><a href="#maven-依赖关系">Maven 依赖关系</a></li>
+            <li><a href="#代码使用">代码使用</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四总结">四、总结</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="content" id="content"><h2 id="引言">引言</h2>
+<p>作为 Java 开发人员来说几乎是离不开 Spring ，Spring 是一个广泛用于开发企业应用程序的开源轻量级框架。但近几年出现了 Spring Boot，构建在传统 Spring 框架之上。因此，提供了完整 Spring 的功能，并且让开发人员更加容易使用。在使用 Spring Boot 缺不了接触到各种 Spring Boot Starter ，比如 <code>spring-boot-starter-web</code>，似乎我们只需要将该依赖加入项目中，我们就可以开始开发应用了；还有引入了 <code>spring-boot-starter-data-jdbc</code> 后 在配置文件中写上数据库连接信息即可连接数据库，并且可以随意切换数据源组件依赖，Spring Boot Starter 又在其中做了什么适配？我们可否自己实现一个 Spring Boot Starter 呢？本文将会对 Spring Boot Starter 剖析并自行实现一个 Spring Boot Starter 组件。</p>
+<h2 id="一spring-boot-starter-是什么">一、Spring Boot Starter 是什么？</h2>
+<p>Spring Boot Starter 是 Spring Boot 比较重要概念， 是一组方便的依赖描述符，可以将其包含在应用程序中。可以获得所需的所有 Spring 和相关技术的一站式服务，而无需寻找示例代码和复制粘贴依赖描述符负载。在 Spring Boot 中，Starter 是由一组 Maven 依赖项构成的，通常包含一个或者多个自动配置模块 (Auto-Configuration Module) ，这就是 Spring Boot 自动装配。比如我们需要开发 REST 服务，需要依赖 Spring MVC、Tomcat 和 Jackson 等依赖。但是在 Spring Boot 中只需要在项目 Maven <code>pom.xml</code>加入以下 Starter 即可：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/fa8e3dca-798b-40b4-bb20-773099def1d8.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/f3439b59-8b62-42fb-b362-e8a06ed40858.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<p>从上面示例来看，我们使用了相当少的配置创建了一个 REST 应用程序。</p>
+<h2 id="二spring-boot-starter-剖析">二、Spring Boot Starter 剖析</h2>
+<p>我们在前面介绍了 Starter 是什么以及如何快速创建 REST 应用程序，可以看到这只需要简单一个依赖和几行代码即可完成 REST 接口开发，那在没有 Spring Boot 和 Starter 情况下是如何进行开发呢？Spring Boot Starter 工作原理又是如何进行的？接下来让我们分别对纯 Spring 和 Spring Boot Starter 剖析 ，此处我们通过开发 Web 服务与 Dubbo 服务作为例子。</p>
+<h3 id="spring">Spring</h3>
+<h4 id="环境依赖">环境依赖</h4>
+<ul>
+<li>JDK 1.8</li>
+<li>Maven 3</li>
+<li>Tomcat 8（需要依靠 Web 容器服务器才能启动）</li>
+<li>spring-webmvc 4.3.30.RELEASE</li>
+<li>dubbo 2.7.23</li>
+</ul>
+<h4 id="开发流程">开发流程</h4>
+<ol>
+<li>
+<p>目录结构与 Maven <code>demo-service</code> 依赖内容</p>
+<img title="" src="https://storage.360buyimg.com/neos-static-files/48c01353-3a4e-4526-87a2-5aaf1e7312cb.png" alt="" width="604">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- SpringMVC --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>spring-webmvc<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>4.3.30.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>2.5<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 此处需要导入databind包即可， jackson-annotations、jackson-core都不需要显示自己的导入了--&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>com.fasterxml.jackson.core<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>2.9.8<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Dubbo --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.dubbo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>dubbo<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>2.7.23<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>curator-x-discovery<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.zookeeper<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>zookeeper<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.8.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Demo AP --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>com.demo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>demo-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>web/WEB-INF/web.xml</code> Java Web 配置 SpringMVC 入口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;web-app</span> <span class="na">xmlns=</span><span class="s">&#34;http://xmlns.jcp.org/xml/ns/javaee&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&#34;</span>
+</span></span><span class="line"><span class="cl">         <span class="na">version=</span><span class="s">&#34;4.0&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Spring监听器 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;listener&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="nt">&lt;/listener-class&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/listener&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;context-param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param-value&gt;</span>classpath:dubbo.xml<span class="nt">&lt;/param-value&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/context-param&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-name&gt;</span>springmvc<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="nt">&lt;/servlet-class&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;init-param&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-name&gt;</span>contextConfigLocation<span class="nt">&lt;/param-name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-value&gt;</span>classpath:mvc.xml<span class="nt">&lt;/param-value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/init-param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/servlet&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-name&gt;</span>springmvc<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url-pattern&gt;</span>/<span class="nt">&lt;/url-pattern&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/web-app&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>SpringMVC 配置文件 <code>mvc.xml</code> 与 Dubbo 配置文件 <code>dubbo.xml</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&#34;http://www.springframework.org/schema/beans&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xmlns:context=</span><span class="s">&#34;http://www.springframework.org/schema/context&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xmlns:mvc=</span><span class="s">&#34;http://www.springframework.org/schema/mvc&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://www.springframework.org/schema/beans
+</span></span></span><span class="line"><span class="cl"><span class="s">        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">&#34;com.demo.controller&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 开启 MVC 注解驱动 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mvc:annotation-driven/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 访问静态资源 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mvc:default-servlet-handler/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34; ?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&#34;http://www.springframework.org/schema/beans&#34;</span> <span class="na">xmlns:dubbo=</span><span class="s">&#34;http://dubbo.apache.org/schema/dubbo&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">       <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://www.springframework.org/schema/beans
+</span></span></span><span class="line"><span class="cl"><span class="s">        http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Dubbo --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dubbo:application</span> <span class="na">name=</span><span class="s">&#34;demo-service&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dubbo:registry</span> <span class="na">address=</span><span class="s">&#34;zookeeper://127.0.0.1:2181&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dubbo:protocol</span> <span class="na">name=</span><span class="s">&#34;dubbo&#34;</span> <span class="na">port=</span><span class="s">&#34;20880&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;demoServiceImpl&#34;</span> <span class="na">class=</span><span class="s">&#34;com.demo.provider.DemoServiceImpl&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dubbo:service</span> <span class="na">interface=</span><span class="s">&#34;com.demo.api.DemoService&#34;</span> <span class="na">ref=</span><span class="s">&#34;demoServiceImpl&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编写 Controller 接口与 Dubbo RPC 接口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.demo.controller</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/say/hello&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HelloEntity</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">HelloEntity</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.demo.provider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.demo.api.DemoService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.demo.dto.HelloEntity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoServiceImpl</span> <span class="kd">implements</span> <span class="n">DemoService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HelloEntity</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">HelloEntity</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>以上还无法单独运行，需要将以上打包成 <code>war</code> 包放入到 Tomcat 才可运行。</p>
+</li>
+</ol>
+<h4 id="剖析">剖析</h4>
+<p>从上面开发流程可以看到入口都在 <code>web.xml</code> 中，可以看到有一个监听器与一个 Servlet ，并且有初始化参数有 <code>dubbo.xml</code> 与 <code>mvc.xml</code>
+在 Spring Boot 出现之前 Spring 都是以 XML 为配置方式描述 Bean 或者在 XML 配置注解驱动与上下文扫描方式解析 Bean的，所以我们从这里可以看出这里有两个 XML 文件。经过分析源代码整理出以下 XML 标签解析到 Bean 解析流程，如下：
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/5e3afccf-abd7-4a21-bd0b-09e66fd8dc9b.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<ol>
+<li>由 Tomcat 启动加载 <code>web.xml</code> 并通过监听器和 Servlet 让 Spring 加载 XML 并解析。</li>
+<li>直到 <code>BeanDefinitionParserDelegate#parseCustomElement</code> 开始解析自、定义标签，找到 <code>mvc:xxx</code> 或 <code>dubbo:xxx</code> 标签找到了 XML 命名空间。</li>
+<li><code>DefaultNamespaceHandlerResolver</code> 处理逻辑：以懒加载方式加载所有 jar 中 <code>META-INF/spring.handlers</code> （路径必须得是这个）并缓存到 <code>handlerMappings</code> ，通过命名空间 URI 找到与之对应的处理类，SpringMVC 与 Dubbo 命名空间处理类分别为 <code>MvcNamespaceHandler</code> 和 <code>DubboNamespaceHandler</code></li>
+<li><code>MvcNamespaceHandler</code> 和 <code>DubboNamespaceHandler</code> 都分别实现了 <code>NamespaceHandler#init</code> 方法，内容如下：
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/6f02226a-7c12-4f8a-aa62-29533c3669fc.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" />
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/55691ed9-a48f-4fd5-8bd1-63791b1a3a2c.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" />
+init 方法都注册了 SpringMVC 与 Dubbo 标签对应的 <code>BeanDefinitionParser</code> 到 <code>NamespaceHandlerSupport#parsers</code>，也是在上一步 <code>DefaultNamespaceHandlerResolver</code> 根据标签获取到该标签的 <code>BeanDefinitionParser</code> 从而将对应的 Bean 注册到 Spring IOC 容器里，注册逻辑不是本文内容这里就不多讲，至此 SpringMVC 与 Dubbo 加载流程已完成。</li>
+</ol>
+<p>从以上加载流程可以看出，在没有 Spring Boot 之前，Spring 主要都是围绕着 XML 配置来启动，同时加载 XML 自定义标签找到对应命名空间，并且扫描找到 classpath 下 <code>META-INF/spring.handlers</code> 找到命名空间处理类来去解析当前标签。</p>
+<h3 id="spring-boot">Spring Boot</h3>
+<h4 id="环境依赖-1">环境依赖</h4>
+<ul>
+<li>JDK 1.8</li>
+<li>Maven 3</li>
+<li>spring-boot 2.6.9</li>
+<li>dubbo 2.7.23</li>
+</ul>
+<h4 id="开发流程-1">开发流程</h4>
+<ol>
+<li>
+<p>目录结构与 Maven <code>demo-spring-boot</code> 依赖内容
+<img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/ed059881-6e1f-4e3d-9b90-1ed4eaeaa9c8.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- dubbo --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.dubbo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>dubbo-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>2.7.23<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>curator-x-discovery<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.zookeeper<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>zookeeper<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.8.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>com.demo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>demo-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>应用程序入口 <code>Application</code>，<code>@EnableDubbo</code> 开启 <code>Dubbo</code> 组件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoSpringBootApplication</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoSpringBootApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>application.yml</code> 文件内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">dubbo</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">demo-provider</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">20880</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dubbo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">registry</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">zookeeper://127.0.0.1:2181</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编写 Controller 接口与 Dubbo RPC 接口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.demo.controller</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.demo.dto.HelloEntity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/say/hello&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HelloEntity</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">HelloEntity</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.demo.provider</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.demo.api.DemoService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">com.demo.dto.HelloEntity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@DubboService</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoServiceImpl</span> <span class="kd">implements</span> <span class="n">DemoService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HelloEntity</span> <span class="nf">sayHello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">HelloEntity</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>由于 <code>spring-boot-starter-web</code> 已经内嵌 tomcat ，只需要直接运行 <code>DemoSpringBootApplication#main</code>  方法即可运行应用</p>
+</li>
+</ol>
+<h4 id="剖析-1">剖析</h4>
+<p>从开发流程上没办法第一时间找到解析入口，唯一入口就是在 <code>DemoSpringBootApplication</code> ，经过源代码分析得出以下流程：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/52e7f4af-a3a9-4474-8651-6bc5a12d0604.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<ol>
+<li>
+<p>应用 <code>DemoSpringBootApplication</code> 类上有 <code>@SpringBootApplication</code> 注解，而该注解由以下三个注解组成：</p>
+<ul>
+<li>
+<p><code>@SpringBootConfiguration</code>，标注当前类为一个配置类，与 <code>@Configuration</code> 注解功能一致 ，被 <code>@Configuration</code> 注解的类对应 Spring 的 XML 版的容器。</p>
+</li>
+<li>
+<p><code>@EnableAutoConfiguration</code>，开启启动自动装配的关键，由 <code>@AutoConfigurationPackage</code> 与 <code>@Import(AutoConfigurationImportSelector.class)</code>组成</p>
+</li>
+<li>
+<p><code>@ComponentScan</code>，按照当前类路径扫描含有 <code>@Service</code>、<code>@Controller</code>等等注解的类，等同于 Spring XML 中的 <code>context:component-scan</code>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Spring Boot 自动装配由 <code>@EnableAutoConfiguration</code> 导入的 <code>AutoConfigurationImportSelector</code> 类，会调用 <code>SpringFactoriesLoader#loadFactoryNames</code> 从 ClassPath 下扫描所有 jar 包的 <code>META-INF/spring.factories</code> 内容，由于传入的 <code>EnableAutoConfiguration.class</code>，只会返回 <code>org.springframework.boot.autoconfigure.EnableAutoConfiguration</code> key 的值，得到一个全限定类名字符串数组 <code>configurations</code>。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/607a86f4-c1b1-4025-88f9-bdcaf4080447.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+<li>
+<p><code>configurations</code> 经过去重与声明式排除后，会进行以下进行过滤自动装配：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">configurations</span> <span class="o">=</span> <span class="n">getConfigurationClassFilter</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">configurations</span><span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>分成两部分：获取过滤器和执行过滤。</p>
+<ul>
+<li>
+<p><code>getConfigurationClassFilter()</code>，也是通过<code>SpringFactoriesLoader#loadFactoryNames</code> 在<code>META-INF/spring.factories</code> 找到 Key 为 <code>org.springframework.boot.autoconfigure.AutoConfigurationImportFilter</code>的值，目前只有：<code>OnBeanCondition</code>、<code>OnClassCondition</code>、<code>OnClassCondition</code> 三个过滤器。</p>
+</li>
+<li>
+<p>执行过滤，会根据配置类上含有 <code>@ConditionOnBean</code>、<code>@ConditionalOnClass</code>、<code>@ConditionalOnWebApplication</code> 等等条件注解来过滤掉部分配置类。比如 <code>WebMvcAutoConfiguration</code> 指定需要在 <code>@ConditionOnWebApplication</code> 下才生效。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/b5664b75-46d9-40f2-a896-b93b1c08e614.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>在引入各类 Configuration 的配置类后，配置类结合 <code>@Bean</code> 来完成 Spring Bean 解析和注入，同时 Spring Boot 还提供了许多 <code>@ConditionalXXX</code> 给开发者完成灵活注入。</p>
+</li>
+</ol>
+<p>以上就是 Spring Boot 自动装配过程，Spring Boot 利用被 <code>@Configuration</code> 注解的配置类来代替 Spring XML 完成 Bean 的注入，然后由 <code>SpringFactoriesLoader</code> 最终加载 <code>META-INF/spring.factories</code> 中的自动配置类实现自动装配过程，依靠约定大于配置的思想，如果开发的 Starter 想要被生效就需要按照 Spring Boot 的约定。</p>
+<h3 id="小结">小结</h3>
+<p>通过 Spring 与 Spring Boot 开发流程对比，可以看到 Spring Boot 使用相当少的代码和配置完成了 Web 与 Dubbo 独立应用开发，这里也是得益于 Spring Boot Starter 自动装配的能力，自动配置是 Spring Boot 的主要功能。通过消除定义一些属于自动配置类一部分的 Bean 的需要自动配置可以帮忙加速和简单的开发</p>
+<h4 id="spi">SPI</h4>
+<p>我们从上面剖析发现，两者都使用了一项机制去加载引入的 jar 包中的配置文件加载对应类，那就是 <strong>SPI</strong> （Service Provider Interface）</p>
+<p>SPI （Service Provider Interface）， 是 Java 内置的一种服务提供发现机制，提高框架的扩展性。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.small.min.svg"
+        data-sizes="auto"
+        data-srcset="https://storage.360buyimg.com/neos-static-files/d3a500ff-c73d-4bed-aa37-8e9947a0009b.png,  1.5x,  2x"
+        data-src=""
+        alt=""
+        title="" /></p>
+<h5 id="java-spi">Java SPI</h5>
+<p>Java 内置的 SPI 通过 <code>java.util.ServiceLoader</code> 类解析 Classpath 和 jar 包的 <code>META-INF/services</code> 目录下的以接口全限定名命名的文件，并加载该文件中指定的接口实现类，以此完成调用。</p>
+<p>但是 Java SPI 会有一定不足：</p>
+<ul>
+<li>
+<p>不能做到按需加载，需要遍历所有的实现并实例化，然后在循环中找到所需要的实现。</p>
+</li>
+<li>
+<p>多个并发多线程使用 <code>ServiceLoader</code> 类的实例不安全</p>
+</li>
+<li>
+<p>加载不到实现类时抛出并不是真正原因的异常，错误难定位。</p>
+</li>
+</ul>
+<h5 id="spring-spi">Spring SPI</h5>
+<p>Spring SPI 沿用了 Java SPI ，但是在实现上和 Java SPI 存在差异，但是核心机制相同，在不修改 Spring 源码前提下，可以做到对 Spring 框架的扩展开发。</p>
+<ul>
+<li>
+<p>在 Spring XML 中，由 <code>DefaultNamespaceHandlerResolver</code> 负责解析 <code>spring.handlers</code>生成 namespaceUri 和 NamespaceHandler 名称的映射，等有需要时在进行实例化。</p>
+</li>
+<li>
+<p>在 Spring Boot 中，由 <code>SpringFactoriesLoader</code> 负责解析 <code>spring.factories</code> 文件，并将指定接口的所有实现类/全限定类名返回。</p>
+</li>
+</ul>
+<h4 id="spring-boot-270">Spring Boot 2.7.0</h4>
+<p>在本文中 Spring Boot 自动装配使用了 SPI 来加载到 <code>EnableAutoConfiguration</code> 所指定的自动装配的类名，但在 Spring Boot <strong>2.7.0</strong> 之后自动装配 SPI 机制有所改动，<code>META-INF/spring.factories</code> 将废弃，同时在 Spring Boot 3 以上会将相关代码移除，；改动如下：</p>
+<ul>
+<li>
+<p>新的注解：<code>@AutoConfiguration</code> 代替 <code>@Configuration</code></p>
+</li>
+<li>
+<p>读取自动装配的类文件位置改为：<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>，并且实现类全限定类名按照一行一个</p>
+</li>
+<li>
+<p>由 <code>org.springframework.boot.context.annotation.ImportCandidates#load</code> 负责解析 <code>META-INF/spring/%s.imports</code> ，其中 <code>%s</code> 是接口名的占位符</p>
+</li>
+</ul>
+<h2 id="三spring-boot-stater-实践">三、Spring Boot Stater 实践</h2>
+<p>在使用 <code>spring-boot-starter-jdbc</code> 或者 <code>spring-boot-starter-jpa</code> 等数据库操作时，通常会引入一个数据库数据源连接池，比如：<code>HikariCP</code>、<code>DBCP</code>等，同时可随意切换依赖而不需要去更改任何业务代码，开发人员也无需关注底层实现，在此我们自定义一个 Starter 同时也实现这种功能。因为我们以开发一个分布式锁的 Starter 并拥有多个实现：Zookeeper、Redis。 在此使用 Spring Boot 2.6.9 版本。</p>
+<h3 id="开发">开发</h3>
+<h4 id="项目结构与-maven-依赖">项目结构与 Maven 依赖</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">└── src
+</span></span><span class="line"><span class="cl">    ├── main
+</span></span><span class="line"><span class="cl">    │   ├── java
+</span></span><span class="line"><span class="cl">    │   │   └── com.demo.distributed.lock
+</span></span><span class="line"><span class="cl">    │   │      ├── api
+</span></span><span class="line"><span class="cl">    │   │      │   ├── DistributedLock.java
+</span></span><span class="line"><span class="cl">    │   │      │   └── LockInfo.java
+</span></span><span class="line"><span class="cl">    │   │      ├── autoconfigure
+</span></span><span class="line"><span class="cl">    │   │      │   ├── DistributedLockAutoConfiguration.java
+</span></span><span class="line"><span class="cl">    │   │      │   └── DistributedLockProperties.java
+</span></span><span class="line"><span class="cl">    │   │      ├── redis
+</span></span><span class="line"><span class="cl">    │   │      │   └── RedisDistributedLockImpl.java
+</span></span><span class="line"><span class="cl">    │   │      └── zookeeper
+</span></span><span class="line"><span class="cl">    │   │          └── ZookeeperDistributedLockImpl.java
+</span></span><span class="line"><span class="cl">    │   └── resources
+</span></span><span class="line"><span class="cl">    │       └── META-INF
+</span></span><span class="line"><span class="cl">    │           └── spring.factories
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Spring Boot 自动装配注解 --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>spring-boot-autoconfigure<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- 生成 META-INF/spring-configuration-metadata.json --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Zookeeper --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>curator-framework<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>curator-recipes<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c">&lt;!-- Redis --&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.redisson<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>redisson<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.23.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在依赖里可以看到 Zookeeper 和 Redis 依赖关系被设置为 <code>providerd</code> ，作用为编译与测试阶段使用，不会随着项目一起发布。即打包时不会带上该依赖。该设置在 Spring Boot Starter 作用较大，后面会提到。</p>
+<h4 id="分布式锁接口与实现">分布式锁接口与实现</h4>
+<h5 id="接口">接口</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DistributedLock</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * 加锁
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LockInfo</span> <span class="nf">tryLock</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="kt">long</span> <span class="n">expire</span><span class="o">,</span> <span class="kt">long</span> <span class="n">waitTime</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * 释放锁
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">boolean</span> <span class="nf">release</span><span class="o">(</span><span class="n">LockInfo</span> <span class="n">lock</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="redis-实现">Redis 实现</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisDistributedLockImpl</span> <span class="kd">implements</span> <span class="n">DistributedLock</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RedissonClient</span> <span class="n">client</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">RedisDistributedLockImpl</span><span class="o">(</span><span class="n">RedissonClient</span> <span class="n">client</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">client</span> <span class="o">=</span> <span class="n">client</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">LockInfo</span> <span class="nf">tryLock</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="kt">long</span> <span class="n">expire</span><span class="o">,</span> <span class="kt">long</span> <span class="n">waitTime</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">release</span><span class="o">(</span><span class="n">LockInfo</span> <span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="zookeeper-实现">Zookeeper 实现</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ZookeeperDistributedLockImpl</span> <span class="kd">implements</span> <span class="n">DistributedLock</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">CuratorFramework</span> <span class="n">client</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">ZookeeperDistributedLockImpl</span><span class="o">(</span><span class="n">CuratorFramework</span> <span class="n">client</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">client</span> <span class="o">=</span> <span class="n">client</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">LockInfo</span> <span class="nf">tryLock</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="kt">long</span> <span class="n">expire</span><span class="o">,</span> <span class="kt">long</span> <span class="n">waitTime</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">release</span><span class="o">(</span><span class="n">LockInfo</span> <span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span><span class="err"> </span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="distributedlockautoconfiguration-配置类">DistributedLockAutoConfiguration 配置类</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">DistributedLockProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Import</span><span class="o">({</span><span class="n">DistributedLockAutoConfiguration</span><span class="o">.</span><span class="na">Zookeeper</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">DistributedLockAutoConfiguration</span><span class="o">.</span><span class="na">Redis</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DistributedLockAutoConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnClass</span><span class="o">(</span><span class="n">CuratorFramework</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnMissingBean</span><span class="o">(</span><span class="n">DistributedLock</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;distributed.lock.type&#34;</span><span class="o">,</span> <span class="n">havingValue</span> <span class="o">=</span> <span class="s">&#34;zookeeper&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">matchIfMissing</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Zookeeper</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CuratorFramework</span> <span class="nf">curatorFramework</span><span class="o">(</span><span class="n">DistributedLockProperties</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//build CuratorFramework client
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ZookeeperDistributedLockImpl</span> <span class="nf">zookeeperDistributedLock</span><span class="o">(</span><span class="n">CuratorFramework</span> <span class="n">client</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">ZookeeperDistributedLockImpl</span><span class="o">(</span><span class="n">client</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnClass</span><span class="o">(</span><span class="n">RedissonClient</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnMissingBean</span><span class="o">(</span><span class="n">DistributedLock</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConditionalOnProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;distributed.lock.type&#34;</span><span class="o">,</span> <span class="n">havingValue</span> <span class="o">=</span> <span class="s">&#34;redis&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">matchIfMissing</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Redis</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RedissonClient</span> <span class="nf">redissonClient</span><span class="o">(</span><span class="n">DistributedLockProperties</span> <span class="n">properties</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//build RedissonClient client
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RedisDistributedLockImpl</span> <span class="nf">redisDistributedLock</span><span class="o">(</span><span class="n">RedissonClient</span> <span class="n">client</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">new</span> <span class="n">RedisDistributedLockImpl</span><span class="o">(</span><span class="n">client</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p><code>@EnableConfigurationProperties(DistributedLockProperties.class)</code> 开启配置类 Properties 信息，会将配置文件里的信息注入 Properties 类里。</p>
+</li>
+<li>
+<p><code>@Configuration</code> 配置注解</p>
+</li>
+<li>
+<p><code>@ConditionalOnClass(CuratorFramework.class)</code> 条件注解，要求存在 <code>CuratorFramework</code> 类当前配置类才生效，Redis 的子配置类同理。</p>
+</li>
+<li>
+<p><code>@ConditionalOnMissingBean(DistributedLock.class)</code> 条件注解，Spring 不存在 <code>DistributedLock</code> Bean 当前配置类才生效。</p>
+</li>
+<li>
+<p><code>@ConditionalOnProperty(name = &quot;distributed.lock.type&quot;, havingValue = &quot;zookeeper&quot;, matchIfMissing = true)</code> 条件注解，这里判断配置文件 <code>distributed.lock.type</code> 等于 <code>zookeeper</code> 才生效，当如果没配置则默认当做 <code>zookeeper</code></p>
+</li>
+<li>
+<p><code>@Bean</code> 将方法返回的 Bean 注入到 Spring IOC 容器里，方法入参中含依赖的 Bean</p>
+</li>
+</ul>
+<h4 id="springfactories">spring.factories</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-properties" data-lang="properties"><span class="line"><span class="cl"><span class="na">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span><span class="o">=</span><span class="s">\
+</span></span></span><span class="line"><span class="cl"><span class="s">  com.demo.distributed.lock.autoconfigure.DistributedLockAutoConfiguration</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们只需要将该文件放到 <code>resource/META-INF/spring.factories</code> 下，就会被 Spring Boot 加载，这也是 Spring Boot 的约定大于配置的思想。</p>
+<h3 id="使用">使用</h3>
+<h4 id="maven-依赖关系">Maven 依赖关系</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>com.demo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>distributed-lock-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>1.0.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;profiles&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;profile&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>dev<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;activation&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/activation&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="c">&lt;!-- Redis --&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;groupId&gt;</span>org.redisson<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;artifactId&gt;</span>redisson<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;version&gt;</span>3.23.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/profile&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;profile&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>test<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;artifactId&gt;</span>curator-framework<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;artifactId&gt;</span>curator-recipes<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/profile&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/profiles&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此处结合 Maven profile 功能按照不同环境依赖不同分布式锁底层实现，同时 Spring Boot 也提供了 Spring Boot Profile 加载不同配置，可以从开发、测试、生产环境使用不同底层了，同时 Maven profile 可以根据 <code>-P</code> 指定加载不同的依赖进行打包，解决了不同环境使用不同分布式锁实现。</p>
+<h4 id="代码使用">代码使用</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">final</span> <span class="n">DistributedLock</span> <span class="n">distributedLock</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">DemoServiceImpl</span><span class="o">(</span><span class="n">DistributedLock</span> <span class="n">distributedLock</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">distributedLock</span> <span class="o">=</span> <span class="n">distributedLock</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LockInfo</span> <span class="n">lock</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lock</span> <span class="o">=</span> <span class="n">distributedLock</span><span class="o">.</span><span class="na">tryLock</span><span class="o">(</span><span class="s">&#34;demo&#34;</span><span class="o">,</span> <span class="mi">1000</span><span class="o">,</span> <span class="mi">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//do something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">lock</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">distributedLock</span><span class="o">.</span><span class="na">release</span><span class="o">(</span><span class="n">lock</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>业务代码中由于依赖的是接口，结合 Spring Boot Starter + Maven Profile 不管依赖哪个分布式锁实现，都无需去修改代码。</p>
+<h2 id="四总结">四、总结</h2>
+<p>通过本文 Spring 与 Spring Boot 对比，在开发流程上，Spring Boot 相对 Spring XML 减少了很多代码，同时依赖关系上我们只需要引入一个即可；在工作原理上，虽然都使用了 SPI 机制，实现上略有不同，但目标都是保留了扩展性。 通过自定义一个 Spring Boot Starter 了解到 Spring Boot 的约定大于配置思想，同时可以结合 Maven Profile 机制我们可以在不同环境使用不同的底层实现。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2023-07-21 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/" data-title="Spring Boot Starter 剖析与实践"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/" data-title="Spring Boot Starter 剖析与实践"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/spring">Spring</a>,&nbsp;<a href="/tags/spring-boot">Spring Boot</a>,&nbsp;<a href="/tags/java">Java</a></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/dubbo-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E4%BA%94--%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/" class="prev" rel="prev" title="Dubbo 源码分析（五）    属性配置"><i class="fas fa-angle-left fa-fw"></i>Dubbo 源码分析（五）    属性配置</a></div>
+</div>
+<div class="comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2024184918号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
+            <i class="fas fa-chevron-up fa-fw"></i>
+        </a><script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lightGallery(document.getElementById('content'), {
+                selector: '.lightgallery',
+                speed: 400,
+                hideBarsDelay: 2000,
+                thumbnail: true,
+                exThumbImage: 'data-thumbnail',
+                thumbWidth: 80,
+                thumbContHeight: 80,
+            });
+        });
+    </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/js/theme.min.js"></script></body>
+</html>

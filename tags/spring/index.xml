@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring on Janyd Blog</title>
+    <link>http://www.jaftt.com/tags/spring/</link>
+    <description>Recent content in Spring on Janyd Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 21 Jul 2023 17:04:02 +0800</lastBuildDate><atom:link href="http://www.jaftt.com/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Boot Starter 剖析与实践</title>
+      <link>http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/</link>
+      <pubDate>Fri, 21 Jul 2023 17:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/spring-boot-starter-%E5%89%96%E6%9E%90%E4%B8%8E%E5%AE%9E%E8%B7%B5/</guid>
+      <description>引言 作为 Java 开发人员来说几乎是离不开 Spring ，Spring 是一个广泛用于开发企业应用程序的开源轻量级框架。但近几年出现了 Spring Boot，构建在传统 Spring 框架</description>
+    </item>
+    
+  </channel>
+</rss>

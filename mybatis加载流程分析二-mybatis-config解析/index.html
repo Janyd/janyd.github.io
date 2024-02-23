@@ -9,7 +9,7 @@
         <meta name="Description" content="Janyd Blog"><meta property="og:title" content="Mybatis加载流程分析（二）- mybatis-config解析" />
 <meta property="og:description" content="Mybatis mybati-config.xml解析 从上一篇文章我们知道XMLConfigBuilder是对mybatis-config.xml进行解析" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" />
+<meta property="og:url" content="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-04-25T17:18:07+08:00" />
 <meta property="article:modified_time" content="2020-04-25T17:18:07+08:00" />
 <meta name="twitter:card" content="summary"/>
@@ -17,13 +17,13 @@
 <meta name="twitter:description" content="Mybatis mybati-config.xml解析 从上一篇文章我们知道XMLConfigBuilder是对mybatis-config.xml进行解析"/>
 <meta name="theme-color" content="#ffffff">
 <meta name="msapplication-TileColor" content="#da532c">
-<link rel="canonical" href="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" />
+<link rel="canonical" href="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/" /><link rel="next" href="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="prev" href="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%80-%E5%BC%80%E7%AF%87/" /><link rel="next" href="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%B8%89-%E5%8A%A0%E8%BD%BDmybatis-config.xml%E5%86%85%E5%AE%B9/" /><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><link rel="stylesheet" href="/css/style.min.css"><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
@@ -31,19 +31,19 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/example.org\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90\/"
+            "@id": "http:\/\/www.jaftt.com\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90\/"
         },"image": {
                 "@type": "ImageObject",
-                "url": "http:\/\/example.org\/cover.png",
+                "url": "http:\/\/www.jaftt.com\/cover.png",
                 "width":  800 ,
                 "height":  600 
             },"genre": "posts","keywords": "Mybatis, 源码","wordcount":  3528 ,
-        "url": "http:\/\/example.org\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90\/","datePublished": "2020-04-25","dateModified": "2020-04-25","publisher": {
+        "url": "http:\/\/www.jaftt.com\/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90\/","datePublished": "2020-04-25","dateModified": "2020-04-25","publisher": {
                 "@type": "Organization",
                 "name": "Janyd",
                 "logo": {
                 "@type": "ImageObject",
-                "url": "http:\/\/example.org\/logo.png",
+                "url": "http:\/\/www.jaftt.com\/logo.png",
                 "width":  127 ,
                 "height":  40 
                 }
@@ -130,14 +130,14 @@
                 </details>
             </div><div class="content" id="content"><h2 id="mybatis-mybati-configxml解析">Mybatis mybati-config.xml解析</h2>
 <p>从上一篇文章我们知道XMLConfigBuilder是对<code>mybatis-config.xml</code>进行解析，<code>XMLConfigBuilder</code>还有个抽象基类<code>BaseBuilder</code>，其中没有抽象方法仅仅抽取了公共方法。
-<div class="mermaid" id="id-d23ec7"></div>
+<div class="mermaid" id="id-909636"></div>
 从以上类图看出<code>BaseBuilder</code>还有其他子类，有些从名称可以看出其作用，后续我们也会讲解。</p>
 <p>我们先来看<code>XMLConfigBuilder</code>类的结构：</p>
 <h3 id="xmlconfigbuilder解析器"><code>XMLConfigBuilder</code>解析器</h3>
 <p><code>XMLConfigBuilder</code>有六个构造方法，但最终调用的也只有一个构造方法</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -180,48 +180,48 @@
 </span><span class="lnt">41
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="c1">//是否已解析
-</span><span class="c1"></span><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">parsed</span><span class="o">;</span>
-<span class="c1">//Xpath解析器
-</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">XPathParser</span> <span class="n">parser</span><span class="o">;</span>
-<span class="c1">//环境标识
-</span><span class="c1"></span><span class="kd">private</span> <span class="n">String</span> <span class="n">environment</span><span class="o">;</span>
-<span class="c1">//反射器工厂
-</span><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">ReflectorFactory</span> <span class="n">localReflectorFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultReflectorFactory</span><span class="o">();</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="n">XPathParser</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">props</span><span class="o">,</span> <span class="k">new</span> <span class="n">XMLMapperEntityResolver</span><span class="o">()),</span> <span class="n">environment</span><span class="o">,</span> <span class="n">props</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="o">}</span>
-
-<span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="n">XPathParser</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">props</span><span class="o">,</span> <span class="k">new</span> <span class="n">XMLMapperEntityResolver</span><span class="o">()),</span> <span class="n">environment</span><span class="o">,</span> <span class="n">props</span><span class="o">);</span>
-<span class="o">}</span>
-<span class="kd">private</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">XPathParser</span> <span class="n">parser</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">//1.调用父类构造方法
-</span><span class="c1"></span>    <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">Configuration</span><span class="o">());</span>
-    <span class="n">ErrorContext</span><span class="o">.</span><span class="na">instance</span><span class="o">().</span><span class="na">resource</span><span class="o">(</span><span class="s">&#34;SQL Mapper Configuration&#34;</span><span class="o">);</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">setVariables</span><span class="o">(</span><span class="n">props</span><span class="o">);</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">parsed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">=</span> <span class="n">environment</span><span class="o">;</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">parser</span> <span class="o">=</span> <span class="n">parser</span><span class="o">;</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="c1">//是否已解析
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">parsed</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Xpath解析器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">XPathParser</span> <span class="n">parser</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//环境标识
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="n">String</span> <span class="n">environment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//反射器工厂
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">private</span> <span class="kd">final</span> <span class="n">ReflectorFactory</span> <span class="n">localReflectorFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultReflectorFactory</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">Reader</span> <span class="n">reader</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="n">XPathParser</span><span class="o">(</span><span class="n">reader</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">props</span><span class="o">,</span> <span class="k">new</span> <span class="n">XMLMapperEntityResolver</span><span class="o">()),</span> <span class="n">environment</span><span class="o">,</span> <span class="n">props</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="n">environment</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">inputStream</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">(</span><span class="k">new</span> <span class="n">XPathParser</span><span class="o">(</span><span class="n">inputStream</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="n">props</span><span class="o">,</span> <span class="k">new</span> <span class="n">XMLMapperEntityResolver</span><span class="o">()),</span> <span class="n">environment</span><span class="o">,</span> <span class="n">props</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="nf">XMLConfigBuilder</span><span class="o">(</span><span class="n">XPathParser</span> <span class="n">parser</span><span class="o">,</span> <span class="n">String</span> <span class="n">environment</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">props</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//1.调用父类构造方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="n">Configuration</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ErrorContext</span><span class="o">.</span><span class="na">instance</span><span class="o">().</span><span class="na">resource</span><span class="o">(</span><span class="s">&#34;SQL Mapper Configuration&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">setVariables</span><span class="o">(</span><span class="n">props</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">parsed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">environment</span> <span class="o">=</span> <span class="n">environment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">parser</span> <span class="o">=</span> <span class="n">parser</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>前面五个构造方法都是需要传入配置文件输入流，最终由<code>XPathParser</code>来读取，最后一个构造方法：</p>
 <ol>
@@ -234,7 +234,7 @@
 <p>我们再看看父类的构造函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -245,16 +245,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">protected</span> <span class="kd">final</span> <span class="n">Configuration</span> <span class="n">configuration</span><span class="o">;</span>
-<span class="kd">protected</span> <span class="kd">final</span> <span class="n">TypeAliasRegistry</span> <span class="n">typeAliasRegistry</span><span class="o">;</span>
-<span class="kd">protected</span> <span class="kd">final</span> <span class="n">TypeHandlerRegistry</span> <span class="n">typeHandlerRegistry</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="nf">BaseBuilder</span><span class="o">(</span><span class="n">Configuration</span> <span class="n">configuration</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">configuration</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">;</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">typeAliasRegistry</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">getTypeAliasRegistry</span><span class="o">();</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">typeHandlerRegistry</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">getTypeHandlerRegistry</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kd">final</span> <span class="n">Configuration</span> <span class="n">configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kd">final</span> <span class="n">TypeAliasRegistry</span> <span class="n">typeAliasRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protected</span> <span class="kd">final</span> <span class="n">TypeHandlerRegistry</span> <span class="n">typeHandlerRegistry</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">BaseBuilder</span><span class="o">(</span><span class="n">Configuration</span> <span class="n">configuration</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">configuration</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">typeAliasRegistry</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">getTypeAliasRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">typeHandlerRegistry</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">configuration</span><span class="o">.</span><span class="na">getTypeHandlerRegistry</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>就是从<code>Configuration</code>取出别名注册类型与类型处理注册类方便在Builder类们所使用（这两个类在<code>Configuration</code>创建过程就初始化了，详情可看<code>Configuration</code>）</p>
 <h3 id="xpathparser解析器"><code>XPathParser</code>解析器</h3>
@@ -271,7 +271,7 @@
 <h4 id="xpathparser构造方法"><code>XPathParser</code>构造方法</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -350,84 +350,84 @@
 </span><span class="lnt">77
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="cm">/**
-</span><span class="cm"> * XML的Document内容
-</span><span class="cm"> */</span>
-<span class="kd">private</span> <span class="kd">final</span> <span class="n">Document</span> <span class="n">document</span><span class="o">;</span>
-
-
-<span class="kd">private</span> <span class="kt">boolean</span> <span class="n">validation</span><span class="o">;</span>
-
-<span class="cm">/**
-</span><span class="cm"> * XML 实体解析器，加载DTD或XSD文件
-</span><span class="cm"> */</span>
-<span class="kd">private</span> <span class="n">EntityResolver</span> <span class="n">entityResolver</span><span class="o">;</span>
-
-<span class="cm">/**
-</span><span class="cm"> * 加载变量，例如xml里有${}占位符时，需要通过额外的文件去加载变量值，动态替换属性值
-</span><span class="cm"> */</span>
-<span class="kd">private</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">;</span>
-
-<span class="cm">/**
-</span><span class="cm"> * Java Xpath 用于查询XML节点信息等等
-</span><span class="cm"> */</span>
-<span class="kd">private</span> <span class="n">XPath</span> <span class="n">xpath</span><span class="o">;</span>
-
-<span class="cm">/**
-</span><span class="cm"> * 公共构造函数
-</span><span class="cm"> *
-</span><span class="cm"> * @param validation     是否校验XML
-</span><span class="cm"> * @param variables      动态配置属性值
-</span><span class="cm"> * @param entityResolver XML实体解析器
-</span><span class="cm">*/</span>
-<span class="kd">private</span> <span class="kt">void</span> <span class="nf">commonConstructor</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">validation</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">,</span> <span class="n">EntityResolver</span> <span class="n">entityResolver</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">validation</span> <span class="o">=</span> <span class="n">validation</span><span class="o">;</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">entityResolver</span> <span class="o">=</span> <span class="n">entityResolver</span><span class="o">;</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">variables</span> <span class="o">=</span> <span class="n">variables</span><span class="o">;</span>
-    <span class="n">XPathFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">XPathFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
-    <span class="k">this</span><span class="o">.</span><span class="na">xpath</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newXPath</span><span class="o">();</span>
-<span class="o">}</span>
-
-<span class="kd">private</span> <span class="n">Document</span> <span class="nf">createDocument</span><span class="o">(</span><span class="n">InputSource</span> <span class="n">inputSource</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">// important: this must only be called AFTER common constructor
-</span><span class="c1"></span>    <span class="k">try</span> <span class="o">{</span>
-        <span class="n">DocumentBuilderFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">DocumentBuilderFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
-        <span class="n">factory</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="n">XMLConstants</span><span class="o">.</span><span class="na">FEATURE_SECURE_PROCESSING</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
-        <span class="c1">//是否校验XML
-</span><span class="c1"></span>        <span class="n">factory</span><span class="o">.</span><span class="na">setValidating</span><span class="o">(</span><span class="n">validation</span><span class="o">);</span>
-
-        <span class="n">factory</span><span class="o">.</span><span class="na">setNamespaceAware</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-        <span class="n">factory</span><span class="o">.</span><span class="na">setIgnoringComments</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-        <span class="n">factory</span><span class="o">.</span><span class="na">setIgnoringElementContentWhitespace</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-        <span class="n">factory</span><span class="o">.</span><span class="na">setCoalescing</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
-        <span class="n">factory</span><span class="o">.</span><span class="na">setExpandEntityReferences</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-
-        <span class="n">DocumentBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newDocumentBuilder</span><span class="o">();</span>
-        <span class="n">builder</span><span class="o">.</span><span class="na">setEntityResolver</span><span class="o">(</span><span class="n">entityResolver</span><span class="o">);</span>
-
-        <span class="c1">//错误处理器
-</span><span class="c1"></span>        <span class="n">builder</span><span class="o">.</span><span class="na">setErrorHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">ErrorHandler</span><span class="o">()</span> <span class="o">{</span>
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">error</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
-                <span class="k">throw</span> <span class="n">exception</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fatalError</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
-                <span class="k">throw</span> <span class="n">exception</span><span class="o">;</span>
-            <span class="o">}</span>
-
-            <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
-                <span class="c1">// NOP
-</span><span class="c1"></span>            <span class="o">}</span>
-        <span class="o">});</span>
-        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">inputSource</span><span class="o">);</span>
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">BuilderException</span><span class="o">(</span><span class="s">&#34;Error creating document instance.  Cause: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * XML的Document内容
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">final</span> <span class="n">Document</span> <span class="n">document</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">validation</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * XML 实体解析器，加载DTD或XSD文件
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">EntityResolver</span> <span class="n">entityResolver</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 加载变量，例如xml里有${}占位符时，需要通过额外的文件去加载变量值，动态替换属性值
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Java Xpath 用于查询XML节点信息等等
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">XPath</span> <span class="n">xpath</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 公共构造函数
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param validation     是否校验XML
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param variables      动态配置属性值
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param entityResolver XML实体解析器
+</span></span></span><span class="line"><span class="cl"><span class="cm">*/</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">commonConstructor</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">validation</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">,</span> <span class="n">EntityResolver</span> <span class="n">entityResolver</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">validation</span> <span class="o">=</span> <span class="n">validation</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">entityResolver</span> <span class="o">=</span> <span class="n">entityResolver</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">variables</span> <span class="o">=</span> <span class="n">variables</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">XPathFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">XPathFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">xpath</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newXPath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Document</span> <span class="nf">createDocument</span><span class="o">(</span><span class="n">InputSource</span> <span class="n">inputSource</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// important: this must only be called AFTER common constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DocumentBuilderFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">DocumentBuilderFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="n">XMLConstants</span><span class="o">.</span><span class="na">FEATURE_SECURE_PROCESSING</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//是否校验XML
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">factory</span><span class="o">.</span><span class="na">setValidating</span><span class="o">(</span><span class="n">validation</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setNamespaceAware</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setIgnoringComments</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setIgnoringElementContentWhitespace</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setCoalescing</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">factory</span><span class="o">.</span><span class="na">setExpandEntityReferences</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">DocumentBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newDocumentBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">builder</span><span class="o">.</span><span class="na">setEntityResolver</span><span class="o">(</span><span class="n">entityResolver</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//错误处理器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">builder</span><span class="o">.</span><span class="na">setErrorHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">ErrorHandler</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">error</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="n">exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fatalError</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">throw</span> <span class="n">exception</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">warning</span><span class="o">(</span><span class="n">SAXParseException</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// NOP
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">inputSource</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">BuilderException</span><span class="o">(</span><span class="s">&#34;Error creating document instance.  Cause: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>XPathParser</code>构造方法有很多，但基本都比较类似，都会调用<code>commonConstructor</code>与<code>createDocument</code>两个方法，属性的作用如下：</p>
 <ul>
@@ -441,7 +441,7 @@
 <p>其他的方法都是<code>eval*</code>的方法族，用于根据xpath表达式获取节点上的数据，我们重点来看<code>evaluate</code>方法：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -459,28 +459,28 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="cm">/**
-</span><span class="cm"> * 解析xpath表达式
-</span><span class="cm"> *
-</span><span class="cm"> * @param expression 表达式
-</span><span class="cm"> * @param root       节点对象，从哪个节点开始
-</span><span class="cm"> * @param returnType 返回的类型
-</span><span class="cm"> * @return 数据
-</span><span class="cm"> */</span>
-<span class="kd">private</span> <span class="n">Object</span> <span class="nf">evaluate</span><span class="o">(</span><span class="n">String</span> <span class="n">expression</span><span class="o">,</span> <span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">QName</span> <span class="n">returnType</span><span class="o">)</span> <span class="o">{</span>
-    <span class="k">try</span> <span class="o">{</span>
-        <span class="c1">//利用xpath解析表达式
-</span><span class="c1"></span>        <span class="k">return</span> <span class="n">xpath</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">returnType</span><span class="o">);</span>
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">BuilderException</span><span class="o">(</span><span class="s">&#34;Error evaluating XPath.  Cause: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 解析xpath表达式
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param expression 表达式
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param root       节点对象，从哪个节点开始
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param returnType 返回的类型
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @return 数据
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Object</span> <span class="nf">evaluate</span><span class="o">(</span><span class="n">String</span> <span class="n">expression</span><span class="o">,</span> <span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">QName</span> <span class="n">returnType</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">//利用xpath解析表达式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">xpath</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">returnType</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">BuilderException</span><span class="o">(</span><span class="s">&#34;Error evaluating XPath.  Cause: &#34;</span> <span class="o">+</span> <span class="n">e</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>其他方法都是基于该方法来进行解析完成，但有部分是解析出节点对象<code>XNode</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -499,24 +499,24 @@
 </span><span class="lnt">17
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">public</span> <span class="n">XNode</span> <span class="nf">evalNode</span><span class="o">(</span><span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">String</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="o">(</span><span class="n">Node</span><span class="o">)</span> <span class="n">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">XPathConstants</span><span class="o">.</span><span class="na">NODE</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">//封装成 @see org.apache.ibatis.parsing.XNode 主要是为了能够解析${xx} 动态值
-</span><span class="c1"></span>    <span class="k">return</span> <span class="k">new</span> <span class="n">XNode</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">node</span><span class="o">,</span> <span class="n">variables</span><span class="o">);</span>
-<span class="o">}</span>
-<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">XNode</span><span class="o">&gt;</span> <span class="nf">evalNodes</span><span class="o">(</span><span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">String</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">XNode</span><span class="o">&gt;</span> <span class="n">xnodes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-        <span class="n">NodeList</span> <span class="n">nodes</span> <span class="o">=</span> <span class="o">(</span><span class="n">NodeList</span><span class="o">)</span> <span class="n">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">XPathConstants</span><span class="o">.</span><span class="na">NODESET</span><span class="o">);</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">xnodes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">XNode</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">nodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">variables</span><span class="o">));</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">xnodes</span><span class="o">;</span>
-    <span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">XNode</span> <span class="nf">evalNode</span><span class="o">(</span><span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">String</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="o">(</span><span class="n">Node</span><span class="o">)</span> <span class="n">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">XPathConstants</span><span class="o">.</span><span class="na">NODE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//封装成 @see org.apache.ibatis.parsing.XNode 主要是为了能够解析${xx} 动态值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="k">new</span> <span class="n">XNode</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">node</span><span class="o">,</span> <span class="n">variables</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">XNode</span><span class="o">&gt;</span> <span class="nf">evalNodes</span><span class="o">(</span><span class="n">Object</span> <span class="n">root</span><span class="o">,</span> <span class="n">String</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">XNode</span><span class="o">&gt;</span> <span class="n">xnodes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">NodeList</span> <span class="n">nodes</span> <span class="o">=</span> <span class="o">(</span><span class="n">NodeList</span><span class="o">)</span> <span class="n">evaluate</span><span class="o">(</span><span class="n">expression</span><span class="o">,</span> <span class="n">root</span><span class="o">,</span> <span class="n">XPathConstants</span><span class="o">.</span><span class="na">NODESET</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">xnodes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">XNode</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">nodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">variables</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">xnodes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>XNode</code>是mybatis对<code>org.w3c.dom.Node</code>的一个封装，增强节点对象的解析与动态变量的替换。
 从上篇文章我们知道<code>XMLConfigBuilder#parseConfiguration</code>方法的参数就是<code>XNode</code>，这个这节点就是<code>mybatis-config.xml</code>的根节点<code>configuration</code>。</p>
@@ -524,7 +524,7 @@
 <p>在<code>mybatis-config.xml</code>可以使用${}占位符来代表该变量是动态的，这个变量是从properties读取或在配置文件中节点<code>&lt;properties /&gt;</code>读取的动态变量，而这里如何做到的呢？该相关的逻辑都在<code>XNode</code>与<code>PropertyParser</code>中，<code>XNode</code>获取标签属性时，会经过动态变量进行替换再返回，例如：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -550,36 +550,36 @@
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">private</span> <span class="n">Properties</span> <span class="nf">parseAttributes</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">Properties</span> <span class="n">attributes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
-    <span class="n">NamedNodeMap</span> <span class="n">attributeNodes</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="na">getAttributes</span><span class="o">();</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">attributeNodes</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">attributeNodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">Node</span> <span class="n">attribute</span> <span class="o">=</span> <span class="n">attributeNodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-            <span class="c1">//此处调用PropertyParser#parse
-</span><span class="c1"></span>            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">PropertyParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">attribute</span><span class="o">.</span><span class="na">getNodeValue</span><span class="o">(),</span> <span class="n">variables</span><span class="o">);</span>
-            <span class="n">attributes</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">attribute</span><span class="o">.</span><span class="na">getNodeName</span><span class="o">(),</span> <span class="n">value</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="n">attributes</span><span class="o">;</span>
-<span class="o">}</span>
-
-<span class="c1">//PropertyParser.java类
-</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">parse</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">)</span> <span class="o">{</span>
-    <span class="c1">//变量处理器
-</span><span class="c1"></span>    <span class="n">VariableTokenHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VariableTokenHandler</span><span class="o">(</span><span class="n">variables</span><span class="o">);</span>
-
-    <span class="c1">//通用解析器
-</span><span class="c1"></span>    <span class="n">GenericTokenParser</span> <span class="n">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericTokenParser</span><span class="o">(</span><span class="s">&#34;${&#34;</span><span class="o">,</span> <span class="s">&#34;}&#34;</span><span class="o">,</span> <span class="n">handler</span><span class="o">);</span>
-    <span class="c1">//解析执行
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Properties</span> <span class="nf">parseAttributes</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Properties</span> <span class="n">attributes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NamedNodeMap</span> <span class="n">attributeNodes</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="na">getAttributes</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">attributeNodes</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">attributeNodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span> <span class="n">attribute</span> <span class="o">=</span> <span class="n">attributeNodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">//此处调用PropertyParser#parse
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="n">PropertyParser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">attribute</span><span class="o">.</span><span class="na">getNodeValue</span><span class="o">(),</span> <span class="n">variables</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">attributes</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">attribute</span><span class="o">.</span><span class="na">getNodeName</span><span class="o">(),</span> <span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">attributes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//PropertyParser.java类
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">parse</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">,</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//变量处理器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">VariableTokenHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VariableTokenHandler</span><span class="o">(</span><span class="n">variables</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//通用解析器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">GenericTokenParser</span> <span class="n">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericTokenParser</span><span class="o">(</span><span class="s">&#34;${&#34;</span><span class="o">,</span> <span class="s">&#34;}&#34;</span><span class="o">,</span> <span class="n">handler</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//解析执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>从代码可以看出使用了<code>VariableTokenHandler</code>与<code>GenericTokenParser</code>来进行解析，进一步查看<code>VariableTokenHandler</code>是<code>PropertyParser</code>内部类，并实现了接口<code>TokenHandler</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -623,55 +623,55 @@
 </span><span class="lnt">42
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">VariableTokenHandler</span> <span class="kd">implements</span> <span class="n">TokenHandler</span> <span class="o">{</span>
-
-    <span class="c1">//动态变量
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">;</span>
-    <span class="c1">//是否开启默认值
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">enableDefaultValue</span><span class="o">;</span>
-    <span class="c1">//默认值的分隔符
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">defaultValueSeparator</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="nf">VariableTokenHandler</span><span class="o">(</span><span class="n">Properties</span> <span class="n">variables</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">variables</span> <span class="o">=</span> <span class="n">variables</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">enableDefaultValue</span> <span class="o">=</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">parseBoolean</span><span class="o">(</span><span class="n">getPropertyValue</span><span class="o">(</span><span class="n">KEY_ENABLE_DEFAULT_VALUE</span><span class="o">,</span> <span class="n">ENABLE_DEFAULT_VALUE</span><span class="o">));</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">defaultValueSeparator</span> <span class="o">=</span> <span class="n">getPropertyValue</span><span class="o">(</span><span class="n">KEY_DEFAULT_VALUE_SEPARATOR</span><span class="o">,</span> <span class="n">DEFAULT_VALUE_SEPARATOR</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">private</span> <span class="n">String</span> <span class="nf">getPropertyValue</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">defaultValue</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="o">(</span><span class="n">variables</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">defaultValue</span> <span class="o">:</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">handleToken</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">variables</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">enableDefaultValue</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">//如果开启默认值，解析content里有没有 冒号(:)，冒号前是动态变量的key，冒号后面是默认值，如果key不存在variables里，就会取默认值
-</span><span class="c1"></span>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">separatorIndex</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">defaultValueSeparator</span><span class="o">);</span>
-                <span class="n">String</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">separatorIndex</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">separatorIndex</span><span class="o">);</span>
-                    <span class="n">defaultValue</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">separatorIndex</span> <span class="o">+</span> <span class="n">defaultValueSeparator</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
-                <span class="o">}</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">defaultValue</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">return</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">);</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">variables</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="s">&#34;${&#34;</span> <span class="o">+</span> <span class="n">content</span> <span class="o">+</span> <span class="s">&#34;}&#34;</span><span class="o">;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">VariableTokenHandler</span> <span class="kd">implements</span> <span class="n">TokenHandler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//动态变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Properties</span> <span class="n">variables</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//是否开启默认值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">enableDefaultValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//默认值的分隔符
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">defaultValueSeparator</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="nf">VariableTokenHandler</span><span class="o">(</span><span class="n">Properties</span> <span class="n">variables</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">variables</span> <span class="o">=</span> <span class="n">variables</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">enableDefaultValue</span> <span class="o">=</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">parseBoolean</span><span class="o">(</span><span class="n">getPropertyValue</span><span class="o">(</span><span class="n">KEY_ENABLE_DEFAULT_VALUE</span><span class="o">,</span> <span class="n">ENABLE_DEFAULT_VALUE</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">defaultValueSeparator</span> <span class="o">=</span> <span class="n">getPropertyValue</span><span class="o">(</span><span class="n">KEY_DEFAULT_VALUE_SEPARATOR</span><span class="o">,</span> <span class="n">DEFAULT_VALUE_SEPARATOR</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="nf">getPropertyValue</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">String</span> <span class="n">defaultValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">variables</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">defaultValue</span> <span class="o">:</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">handleToken</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">variables</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">String</span> <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">enableDefaultValue</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//如果开启默认值，解析content里有没有 冒号(:)，冒号前是动态变量的key，冒号后面是默认值，如果key不存在variables里，就会取默认值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="kd">final</span> <span class="kt">int</span> <span class="n">separatorIndex</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">defaultValueSeparator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">separatorIndex</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">key</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">separatorIndex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">defaultValue</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">separatorIndex</span> <span class="o">+</span> <span class="n">defaultValueSeparator</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">defaultValue</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">variables</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">key</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">variables</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;${&#34;</span> <span class="o">+</span> <span class="n">content</span> <span class="o">+</span> <span class="s">&#34;}&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>从代码可看出其实就是处理content，并返回<code>variables</code>中的变量值，只是这里还含有默认值的处理，现在大多数都会采取这样的默认规则${key:defaultValue}</p>
 <p><code>GenericTokenParser</code>是通用解析器，怎么通用呢？源码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -759,93 +759,93 @@
 </span><span class="lnt">86
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-Java" data-lang="Java"><span class="cm">/**
-</span><span class="cm"> * 通用token解析器
-</span><span class="cm"> *
-</span><span class="cm"> * @author Clinton Begin
-</span><span class="cm"> */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenericTokenParser</span> <span class="o">{</span>
-
-    <span class="cm">/**
-</span><span class="cm">     * 开始字符串
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">openToken</span><span class="o">;</span>
-
-    <span class="cm">/**
-</span><span class="cm">     * 结束字符串
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">closeToken</span><span class="o">;</span>
-
-    <span class="cm">/**
-</span><span class="cm">     * token处理器
-</span><span class="cm">     */</span>
-    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TokenHandler</span> <span class="n">handler</span><span class="o">;</span>
-
-    <span class="kd">public</span> <span class="nf">GenericTokenParser</span><span class="o">(</span><span class="n">String</span> <span class="n">openToken</span><span class="o">,</span> <span class="n">String</span> <span class="n">closeToken</span><span class="o">,</span> <span class="n">TokenHandler</span> <span class="n">handler</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">openToken</span> <span class="o">=</span> <span class="n">openToken</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">closeToken</span> <span class="o">=</span> <span class="n">closeToken</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">handler</span> <span class="o">=</span> <span class="n">handler</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">parse</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">text</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">text</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="c1">// search open token
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">openToken</span><span class="o">);</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">==</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">text</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="kt">char</span><span class="o">[]</span> <span class="n">src</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
-        <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
-        <span class="kd">final</span> <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
-        <span class="n">StringBuilder</span> <span class="n">expression</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;</span> <span class="n">0</span> <span class="o">&amp;&amp;</span> <span class="n">src</span><span class="o">[</span><span class="n">start</span> <span class="o">-</span> <span class="n">1</span><span class="o">]</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="c1">// this open token is escaped. remove the backslash and continue.
-</span><span class="c1"></span>                <span class="c1">//由于openToken前是转义字符\,需要忽略
-</span><span class="c1"></span>                <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">start</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">openToken</span><span class="o">);</span>
-                <span class="c1">//重新定位偏移位
-</span><span class="c1"></span>                <span class="n">offset</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">openToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="c1">// found open token. let&#39;s search close token.
-</span><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">expression</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="n">expression</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="n">expression</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
-                <span class="o">}</span>
-                <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">start</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
-                <span class="n">offset</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">openToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-                <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">closeToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
-                <span class="k">while</span> <span class="o">(</span><span class="n">end</span> <span class="o">&gt;</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="k">if</span> <span class="o">(</span><span class="n">end</span> <span class="o">&gt;</span> <span class="n">offset</span> <span class="o">&amp;&amp;</span> <span class="n">src</span><span class="o">[</span><span class="n">end</span> <span class="o">-</span> <span class="n">1</span><span class="o">]</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span><span class="o">)</span> <span class="o">{</span>
-                        <span class="c1">// this close token is escaped. remove the backslash and continue.
-</span><span class="c1"></span>                        <span class="n">expression</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">closeToken</span><span class="o">);</span>
-                        <span class="n">offset</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">closeToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-                        <span class="n">end</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">closeToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
-                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                        <span class="n">expression</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
-                        <span class="k">break</span><span class="o">;</span>
-                    <span class="o">}</span>
-                <span class="o">}</span>
-                <span class="k">if</span> <span class="o">(</span><span class="n">end</span> <span class="o">==</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-                    <span class="c1">// close token was not found.
-</span><span class="c1"></span>                    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">start</span><span class="o">);</span>
-                    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
-                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">handler</span><span class="o">.</span><span class="na">handleToken</span><span class="o">(</span><span class="n">expression</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
-                    <span class="n">offset</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">closeToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
-                <span class="o">}</span>
-            <span class="o">}</span>
-            <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">openToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">offset</span> <span class="o">&lt;</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 通用token解析器
+</span></span></span><span class="line"><span class="cl"><span class="cm"> *
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @author Clinton Begin
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GenericTokenParser</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * 开始字符串
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">openToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * 结束字符串
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">closeToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">     * token处理器
+</span></span></span><span class="line"><span class="cl"><span class="cm">     */</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TokenHandler</span> <span class="n">handler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">GenericTokenParser</span><span class="o">(</span><span class="n">String</span> <span class="n">openToken</span><span class="o">,</span> <span class="n">String</span> <span class="n">closeToken</span><span class="o">,</span> <span class="n">TokenHandler</span> <span class="n">handler</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">openToken</span> <span class="o">=</span> <span class="n">openToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">closeToken</span> <span class="o">=</span> <span class="n">closeToken</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">handler</span> <span class="o">=</span> <span class="n">handler</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">parse</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">text</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">text</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// search open token
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">openToken</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">text</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span><span class="o">[]</span> <span class="n">src</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">final</span> <span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StringBuilder</span> <span class="n">expression</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">start</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">src</span><span class="o">[</span><span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// this open token is escaped. remove the backslash and continue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">//由于openToken前是转义字符\,需要忽略
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">start</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">openToken</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">//重新定位偏移位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">offset</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">openToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// found open token. let&#39;s search close token.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="o">(</span><span class="n">expression</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">expression</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">expression</span><span class="o">.</span><span class="na">setLength</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">start</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">offset</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">openToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">closeToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">while</span> <span class="o">(</span><span class="n">end</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">end</span> <span class="o">&gt;</span> <span class="n">offset</span> <span class="o">&amp;&amp;</span> <span class="n">src</span><span class="o">[</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">==</span> <span class="sc">&#39;\\&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// this close token is escaped. remove the backslash and continue.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                        <span class="n">expression</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">closeToken</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">offset</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">closeToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">end</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">closeToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">expression</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">end</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">end</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// close token was not found.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">start</span><span class="o">,</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">start</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">handler</span><span class="o">.</span><span class="na">handleToken</span><span class="o">(</span><span class="n">expression</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">offset</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="n">closeToken</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">openToken</span><span class="o">,</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">offset</span> <span class="o">&lt;</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">src</span><span class="o">,</span> <span class="n">offset</span><span class="o">,</span> <span class="n">src</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">offset</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><code>GenericTokenParser</code>的三个属性显而易见，就是占位符的开始关键字符串<code>openToken</code>、结束关键字符串<code>closeToken</code>与占位符的处理器，这里的概念有点类似策略模式，定义了占位符处理器接口，解析器在一段字符串里找到占位符就交给处理器处理并替换占位符。而在这里只是处理了${}，在后续的解析中都会遇到该通用解析器</p>
 <h2 id="总结">总结</h2>
@@ -870,7 +870,7 @@
                             <a class="link-to-markdown" href="/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/index.md" target="_blank">阅读原始文档</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" data-title="Mybatis加载流程分析（二）- mybatis-config解析"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://example.org/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" data-title="Mybatis加载流程分析（二）- mybatis-config解析"><i class="fab fa-evernote fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" data-title="Mybatis加载流程分析（二）- mybatis-config解析"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="http://www.jaftt.com/mybatis%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E4%BA%8C-mybatis-config%E8%A7%A3%E6%9E%90/" data-title="Mybatis加载流程分析（二）- mybatis-config解析"><i class="fab fa-evernote fa-fw"></i></a></span>
             </div>
         </div>
     </div>
@@ -891,7 +891,8 @@
     <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer"><i class="far fa-heart fa-fw"></i> LoveIt</a>
         </div>
 
-        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020 - 2024</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/Janyd" target="_blank">Janyd</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备2024184918号-1</a></span></div>
     </div>
 </footer>
 </div><a href="#" class="dynamic-to-top animated faster" id="dynamic-to-top">
@@ -909,8 +910,8 @@
             });
         });
     </script><script>
-        window.mermaidArr = ["id-d23ec7"];
+        window.mermaidArr = ["id-909636"];
     </script><script>
-        window.contentMap = {"id-d23ec7":"\r\nclassDiagram\r\n    class BaseBuilder\r\n    \u003c\u003cabstract\u003e\u003e BaseBuilder\r\n    class XMLConfigBuilder\r\n    class XMLMapperBuilder\r\n    class XMLStatementBuilder\r\n    class XMLSqlSourceBuilder\r\n    class XMLScriptBuilder\r\n    class MapperBuilderAssistant\r\n    BaseBuilder \u003c|-- XMLConfigBuilder\r\n    BaseBuilder \u003c|-- XMLMapperBuilder\r\n    BaseBuilder \u003c|-- XMLStatementBuilder\r\n    BaseBuilder \u003c|-- XMLSqlSourceBuilder\r\n    BaseBuilder \u003c|-- XMLScriptBuilder\r\n    BaseBuilder \u003c|-- MapperBuilderAssistant\r"};
+        window.contentMap = {"id-909636":"classDiagram\n    class BaseBuilder\n    \u003c\u003cabstract\u003e\u003e BaseBuilder\n    class XMLConfigBuilder\n    class XMLMapperBuilder\n    class XMLStatementBuilder\n    class XMLSqlSourceBuilder\n    class XMLScriptBuilder\n    class MapperBuilderAssistant\n    BaseBuilder \u003c|-- XMLConfigBuilder\n    BaseBuilder \u003c|-- XMLMapperBuilder\n    BaseBuilder \u003c|-- XMLStatementBuilder\n    BaseBuilder \u003c|-- XMLSqlSourceBuilder\n    BaseBuilder \u003c|-- XMLScriptBuilder\n    BaseBuilder \u003c|-- MapperBuilderAssistant"};
     </script><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/mermaid/mermaid.css"><script src="/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/lightgallery/lightgallery.min.js"></script><script src="/lib/lightgallery/lg-thumbnail.min.js"></script><script src="/lib/lightgallery/lg-zoom.min.js"></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/js/theme.min.js"></script></body>
 </html>

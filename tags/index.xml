@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Janyd Blog</title>
+    <link>http://www.jaftt.com/tags/</link>
+    <description>Recent content in Tags on Janyd Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 21 Jul 2023 17:04:02 +0800</lastBuildDate><atom:link href="http://www.jaftt.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java</title>
+      <link>http://www.jaftt.com/tags/java/</link>
+      <pubDate>Fri, 21 Jul 2023 17:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>http://www.jaftt.com/tags/spring/</link>
+      <pubDate>Fri, 21 Jul 2023 17:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring Boot</title>
+      <link>http://www.jaftt.com/tags/spring-boot/</link>
+      <pubDate>Fri, 21 Jul 2023 17:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/spring-boot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dubbo</title>
+      <link>http://www.jaftt.com/tags/dubbo/</link>
+      <pubDate>Sun, 01 Nov 2020 18:13:07 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/dubbo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>源码</title>
+      <link>http://www.jaftt.com/tags/%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Sun, 01 Nov 2020 18:13:07 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/%E6%BA%90%E7%A0%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>http://www.jaftt.com/tags/mysql/</link>
+      <pubDate>Sat, 19 Sep 2020 15:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sql</title>
+      <link>http://www.jaftt.com/tags/sql/</link>
+      <pubDate>Sat, 19 Sep 2020 15:04:02 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>源码解析</title>
+      <link>http://www.jaftt.com/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Fri, 11 Sep 2020 16:14:07 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mybatis</title>
+      <link>http://www.jaftt.com/tags/mybatis/</link>
+      <pubDate>Sun, 26 Apr 2020 14:48:30 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/mybatis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>http://www.jaftt.com/tags/blog/</link>
+      <pubDate>Thu, 23 Apr 2020 19:25:15 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>http://www.jaftt.com/tags/hugo/</link>
+      <pubDate>Thu, 23 Apr 2020 19:25:15 +0800</pubDate>
+      
+      <guid>http://www.jaftt.com/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
